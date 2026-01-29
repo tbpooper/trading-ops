@@ -1,0 +1,22 @@
+name: Opening Range Breakout (example)
+market: stocks
+window_et: "09:30-10:30"
+preconditions:
+  - Market aligned (SPY/QQQ not hard fading)
+  - Clean level (premarket high or prior day high)
+trigger:
+  - Break and hold above level with increasing volume
+entry:
+  type: "limit or market"
+  rule: "Enter on retest OR on strong continuation candle (define)."
+invalidations:
+  - "Reclaims below breakout level and closes below on 1-2m"
+stop:
+  rule: "Below breakout level / below trigger candle low"
+targets:
+  - "Partial at 1R"
+  - "Runner to 2R+ if trend"
+risk:
+  max_risk_per_trade_r: 1.0
+notes:
+  - "This file is a placeholder — replace with your real rules."
