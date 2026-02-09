@@ -17,6 +17,7 @@ from trading.backtest_harness.tv_csv import load_tradingview_ohlc_csv
 
 
 def run_v2(candles, rng: random.Random, max_seconds: float):
+    # Focused search space (expand later)
     space = {
         "spread": [1.0, 1.5, 2.0, 2.5, 3.0],
         "max_trades": [2, 3, 4],
@@ -111,4 +112,13 @@ def main():
         json.dump(summary, f, indent=2)
 
     if best is not None:
-        best["updatedAt"] = summary["ts"]
+        best_out = dict(best)
+        best_out["updatedAt"] = summary["ts"]
+        best_out["iters"] = iters
+        best_out["elapsed_s"] = elapsed
+        with open("artifacts/best.json", "w") as f:
+            json.dump(best_out, f, indent=2)
+
+
+if __name__ == "__main__":
+    main()
