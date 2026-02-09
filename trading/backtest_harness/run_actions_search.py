@@ -1,13 +1,3 @@
-"""GitHub Actions runner: bounded search that writes artifacts.
-
-Loads MNQ 5m TradingView-export CSV and runs a random search over one strategy family.
-Outputs the best config found under safety constraint.
-
-Artifacts written to ./artifacts:
-- best.json (best config + metrics)
-- summary.json (run summary)
-"""
-
 from __future__ import annotations
 
 import json
@@ -32,7 +22,7 @@ def run_v2(candles, rng: random.Random, max_seconds: float):
         "max_trades": [2, 3, 4],
         "cool": [2, 4, 6, 8],
         "dls": [200.0, 250.0, 300.0],
-        "rr": [0.75, 1.0, 1.25],          # v2 rr default-ish range
+        "rr": [0.75, 1.0, 1.25],
         "atr_mult": [1.5, 2.0, 2.5],
         "risk": [100, 150, 200],
         "bo_lb": [10, 15, 20],
@@ -51,19 +41,14 @@ def run_v2(candles, rng: random.Random, max_seconds: float):
             rr=float(cfg["rr"]),
             atr_mult=float(cfg["atr_mult"]),
             risk_per_trade_dollars=float(cfg["risk"]),
-            filters=Filters(
-                min_ema_spread_points=float(cfg["spread"]),
-            ),
+            filters=Filters(min_ema_spread_points=float(cfg["spread"])),
             governor=Governor(
                 max_trades_per_day=int(cfg["max_trades"]),
                 cooldown_bars_after_loss=int(cfg["cool"]),
                 daily_loss_stop=float(cfg["dls"]),
                 max_losses_per_day=int(cfg["max_losses"]),
             ),
-            breakout=Breakout(
-                enabled=True,
-                lookback=int(cfg["bo_lb"]),
-            ),
+            breakout=Breakout(enabled=True, lookback=int(cfg["bo_lb"])),
         )
 
         out = days_to_pass_distribution(
@@ -118,4 +103,12 @@ def main():
         "seed": seed,
         "max_seconds": max_seconds,
         "iters": iters,
-        "elaps
+        "elapsed_s": elapsed,
+        "found": best is not None,
+    }
+
+    with open("artifacts/summary.json", "w") as f:
+        json.dump(summary, f, indent=2)
+
+    if best is not None:
+        best["updatedAt"] = summary["ts"]
