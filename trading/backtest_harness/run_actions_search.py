@@ -8,7 +8,7 @@ Env:
 - DATA_CSV: path to CSV
 - MAX_SECONDS: time budget
 - SEED: RNG seed
-- FAMILY: v2|v5|v6 (default: v2)
+- FAMILY: v2|v5|v6|v7 (default: v2)
 
 Design: dependency-free (stdlib only).
 """
@@ -218,6 +218,64 @@ def run_family_v6(candles, rng: random.Random, max_seconds: float):
     return best, iters, round(time.time() - t0, 2)
 
 
+def run_family_v7(candles, rng: random.Random, max_seconds: float):
+    from trading.backtest_harness.strategy_v7_regime_switch import Params, Regime, Drive, Chop, Exits, Governor, generate_trades
+
+    space = {
+        "atr_min": [5.0, 8.0, 10.0, 12.0],
+        "drive_spread": [1.0, 2.0, 3.0],
+        "drive_lb": [9, 12, 18],
+        "drive_buf": [0.0, 0.5, 1.0],
+        "chop_dev": [0.6, 0.8, 1.0, 1.2],
+        "stop": [0.75, 1.0, 1.25],
+        "trail": [0.5, 0.75, 1.0],
+        "tp": [2.0, 2.5, 3.0, None],
+        "hold": [36, 48, 60, 72],
+        "risk": [100.0, 150.0, 200.0],
+        "mt": [2, 3, 4],
+        "ml": [1, 2],
+        "dls": [200.0, 250.0, 300.0],
+        "cool": [0, 2, 4, 6],
+    }
+
+    best = None
+    iters = 0
+    t0 = time.time()
+    while time.time() - t0 < max_seconds:
+        iters += 1
+        cfg = {k: rng.choice(v) for k, v in space.items()}
+        p = Params(
+            risk_per_trade_dollars=float(cfg["risk"]),
+            regime=Regime(atr_min_points=float(cfg["atr_min"]), drive_spread_points=float(cfg["drive_spread"])),
+            drive=Drive(lookback=int(cfg["drive_lb"]), buffer_points=float(cfg["drive_buf"])),
+            chop=Chop(dev_atr_mult=float(cfg["chop_dev"])),
+            exits=Exits(stop_atr_mult=float(cfg["stop"]), trail_atr_mult=float(cfg["trail"]), tp_atr_mult=cfg["tp"], max_hold_bars=int(cfg["hold"])),
+            governor=Governor(max_trades_per_day=int(cfg["mt"]), max_losses_per_day=int(cfg["ml"]), daily_loss_stop=float(cfg["dls"]), cooldown_bars_after_loss=int(cfg["cool"])),
+        )
+        out = days_to_pass_distribution(
+            candles,
+            lambda sub: generate_trades(sub, p),
+            daily_profit_cap=750.0,
+            daily_loss_cap=300.0,
+            max_days=30,
+        )
+        s = score_from_out(out)
+        if s["mll_rate"] > 0.05:
+            continue
+        cand = {
+            "family": "v7",
+            "cfg": cfg,
+            "outcomes": out["outcomes"],
+            "pass_days_hist": out["pass_days_hist"],
+            **s,
+            "score": [s["pass5_rate"], -s["timeout_rate"]],
+        }
+        if best is None or tuple(cand["score"]) > tuple(best["score"]):
+            best = cand
+
+    return best, iters, round(time.time() - t0, 2)
+
+
 def main():
     os.makedirs("artifacts", exist_ok=True)
 
@@ -233,6 +291,8 @@ def main():
         best, iters, elapsed = run_family_v5(candles, rng, max_seconds)
     elif family == "v6":
         best, iters, elapsed = run_family_v6(candles, rng, max_seconds)
+    elif family == "v7":
+        best, iters, elapsed = run_family_v7(candles, rng, max_seconds)
     else:
         best, iters, elapsed = run_family_v2(candles, rng, max_seconds)
 
