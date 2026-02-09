@@ -6,13 +6,6 @@ Outputs the best config found under safety constraint.
 Artifacts written to ./artifacts:
 - best.json (best config + metrics)
 - summary.json (run summary)
-
-Environment variables:
-- DATA_CSV: path to csv (default: trading/data/inbound/mnq1_5m_tv_unix.csv)
-- MAX_SECONDS: time budget (default: 1200)
-- SEED: rng seed (default: 1337)
-
-This is intentionally dependency-free (stdlib only).
 """
 
 from __future__ import annotations
@@ -23,21 +16,24 @@ import random
 import time
 
 from trading.backtest_harness.days_to_pass import days_to_pass_distribution
-from trading.backtest_harness.strategy_v2 import Params as V2Params, generate_trades as v2_trades
+from trading.backtest_harness.strategy_v2 import (
+    Breakout,
+    Filters,
+    Governor,
+    Params as V2Params,
+    generate_trades as v2_trades,
+)
 from trading.backtest_harness.tv_csv import load_tradingview_ohlc_csv
 
 
 def run_v2(candles, rng: random.Random, max_seconds: float):
-    """Search v2 param space (fast-ish baseline)."""
-
-    # Focused search space (expand later)
     space = {
         "spread": [1.0, 1.5, 2.0, 2.5, 3.0],
         "max_trades": [2, 3, 4],
         "cool": [2, 4, 6, 8],
         "dls": [200.0, 250.0, 300.0],
-        "rr": [2.0, 2.5, 3.0],
-        "atr_mult": [0.75, 1.0, 1.25],
+        "rr": [0.75, 1.0, 1.25],          # v2 rr default-ish range
+        "atr_mult": [1.5, 2.0, 2.5],
         "risk": [100, 150, 200],
         "bo_lb": [10, 15, 20],
         "max_losses": [2, 3],
@@ -50,31 +46,25 @@ def run_v2(candles, rng: random.Random, max_seconds: float):
     while time.time() - t0 < max_seconds:
         iters += 1
         cfg = {k: rng.choice(v) for k, v in space.items()}
-       from trading.backtest_harness.strategy_v2 import (
-    Params as V2Params,
-    Filters,
-    Governor,
-    Breakout,
-)
 
-p = V2Params(
-    rr=float(cfg["rr"]),
-    atr_mult=float(cfg["atr_mult"]),
-    risk_per_trade_dollars=float(cfg["risk"]),
-    filters=Filters(
-        min_ema_spread_points=float(cfg["spread"]),
-    ),
-    governor=Governor(
-        max_trades_per_day=int(cfg["max_trades"]),
-        cooldown_bars_after_loss=int(cfg["cool"]),
-        daily_loss_stop=float(cfg["dls"]),
-        max_losses_per_day=int(cfg["max_losses"]),
-    ),
-    breakout=Breakout(
-        enabled=True,
-        lookback=int(cfg["bo_lb"]),
-    ),
-)
+        p = V2Params(
+            rr=float(cfg["rr"]),
+            atr_mult=float(cfg["atr_mult"]),
+            risk_per_trade_dollars=float(cfg["risk"]),
+            filters=Filters(
+                min_ema_spread_points=float(cfg["spread"]),
+            ),
+            governor=Governor(
+                max_trades_per_day=int(cfg["max_trades"]),
+                cooldown_bars_after_loss=int(cfg["cool"]),
+                daily_loss_stop=float(cfg["dls"]),
+                max_losses_per_day=int(cfg["max_losses"]),
+            ),
+            breakout=Breakout(
+                enabled=True,
+                lookback=int(cfg["bo_lb"]),
+            ),
+        )
 
         out = days_to_pass_distribution(
             candles,
@@ -118,8 +108,8 @@ def main():
     seed = int(os.environ.get("SEED", "1337"))
 
     candles = load_tradingview_ohlc_csv(data_csv)
-
     rng = random.Random(seed)
+
     best, iters, elapsed = run_v2(candles, rng, max_seconds=max_seconds)
 
     summary = {
@@ -128,21 +118,4 @@ def main():
         "seed": seed,
         "max_seconds": max_seconds,
         "iters": iters,
-        "elapsed_s": elapsed,
-        "found": best is not None,
-    }
-
-    with open("artifacts/summary.json", "w") as f:
-        json.dump(summary, f, indent=2)
-
-    if best is not None:
-        best_out = dict(best)
-        best_out["updatedAt"] = summary["ts"]
-        best_out["iters"] = iters
-        best_out["elapsed_s"] = elapsed
-        with open("artifacts/best.json", "w") as f:
-            json.dump(best_out, f, indent=2)
-
-
-if __name__ == "__main__":
-    main()
+        "elaps
