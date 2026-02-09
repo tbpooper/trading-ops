@@ -1,0 +1,36 @@
+# Public repo ignore rules (KEEP SECRETS/DATA OUT)
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+.venv*/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Secrets
+secrets/
+*.env
+.env*
+
+# Data files (do NOT commit raw exports)
+trading/data/
+*.csv
+
+# Local notes / personal
+MEMORY.md
+memory/
+TOOLS.md
+USER.md
+SOUL.md
+AGENTS.md
+HEARTBEAT.md
+canvas/
+
+# Outputs
+*.json
+*.log
