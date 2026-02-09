@@ -3,7 +3,13 @@ name: backtest-search
 on:
   workflow_dispatch:
   schedule:
-    - cron: '15 9 * * *'  # 9:15 UTC daily (adjust later)
+    # Run frequently so results keep updating without manual clicks.
+    # Every 2 hours at :05 UTC (keeps load reasonable; adjust later).
+    - cron: '5 */2 * * *'
+
+concurrency:
+  group: backtest-search
+  cancel-in-progress: true
 
 jobs:
   run:
