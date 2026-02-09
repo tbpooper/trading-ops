@@ -4,8 +4,8 @@ on:
   workflow_dispatch:
   schedule:
     # Run frequently so results keep updating without manual clicks.
-    # Every 2 hours at :05 UTC (keeps load reasonable; adjust later).
-    - cron: '5 */2 * * *'
+    # Every hour at :05 UTC.
+    - cron: '5 * * * *'
 
 concurrency:
   group: backtest-search
