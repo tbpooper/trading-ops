@@ -24,7 +24,17 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt || true
 
+      - name: Download data (MNQ 5m)
+        run: |
+          mkdir -p trading/data/inbound
+          curl -L -o trading/data/inbound/mnq1_5m_tv_unix.csv \
+            https://github.com/tbpooper/trading-ops/releases/download/data-v1/mnq1_5m_tv_unix.csv
+
       - name: Run search (bounded)
+        env:
+          DATA_CSV: trading/data/inbound/mnq1_5m_tv_unix.csv
+          MAX_SECONDS: 1200
+          SEED: 1337
         run: |
           python trading/backtest_harness/run_actions_search.py
 

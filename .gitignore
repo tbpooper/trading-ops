@@ -21,7 +21,7 @@ secrets/
 trading/data/
 *.csv
 
-# Local notes / personal
+# Local notes
 MEMORY.md
 memory/
 TOOLS.md
