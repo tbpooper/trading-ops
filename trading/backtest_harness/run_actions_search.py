@@ -50,17 +50,31 @@ def run_v2(candles, rng: random.Random, max_seconds: float):
     while time.time() - t0 < max_seconds:
         iters += 1
         cfg = {k: rng.choice(v) for k, v in space.items()}
-        p = V2Params(
-            spread_points=float(cfg["spread"]),
-            max_trades_per_day=int(cfg["max_trades"]),
-            cooldown_bars_after_loss=int(cfg["cool"]),
-            daily_loss_stop=float(cfg["dls"]),
-            rr=float(cfg["rr"]),
-            atr_stop_mult=float(cfg["atr_mult"]),
-            risk_per_trade_dollars=float(cfg["risk"]),
-            breakout_lookback=int(cfg["bo_lb"]),
-            max_losses_per_day=int(cfg["max_losses"]),
-        )
+       from trading.backtest_harness.strategy_v2 import (
+    Params as V2Params,
+    Filters,
+    Governor,
+    Breakout,
+)
+
+p = V2Params(
+    rr=float(cfg["rr"]),
+    atr_mult=float(cfg["atr_mult"]),
+    risk_per_trade_dollars=float(cfg["risk"]),
+    filters=Filters(
+        min_ema_spread_points=float(cfg["spread"]),
+    ),
+    governor=Governor(
+        max_trades_per_day=int(cfg["max_trades"]),
+        cooldown_bars_after_loss=int(cfg["cool"]),
+        daily_loss_stop=float(cfg["dls"]),
+        max_losses_per_day=int(cfg["max_losses"]),
+    ),
+    breakout=Breakout(
+        enabled=True,
+        lookback=int(cfg["bo_lb"]),
+    ),
+)
 
         out = days_to_pass_distribution(
             candles,
