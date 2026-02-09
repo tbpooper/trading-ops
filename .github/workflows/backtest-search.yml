@@ -32,6 +32,7 @@ jobs:
 
       - name: Run search (bounded)
         env:
+          PYTHONPATH: .
           DATA_CSV: trading/data/inbound/mnq1_5m_tv_unix.csv
           MAX_SECONDS: 1200
           SEED: 1337
