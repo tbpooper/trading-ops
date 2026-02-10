@@ -34,3 +34,6 @@ canvas/
 # Outputs
 *.json
 *.log
+
+# But DO track published results
+!results/*.json
