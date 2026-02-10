@@ -1,36 +1,35 @@
 {
   "best": {
-    "artifact": "artifacts/backtest-artifacts-v7-404",
+    "artifact": "artifacts/backtest-artifacts-v7-2021",
     "family": "v7",
-    "seed": 404,
-    "pass5_rate": 0.3191489361702128,
-    "mll_rate": 0.0425531914893617,
+    "seed": 2021,
+    "pass5_rate": 0.3617021276595745,
+    "mll_rate": 0.0,
     "timeout_rate": 0.0851063829787234,
     "score": [
-      0.3191489361702128,
+      0.3617021276595745,
       -0.0851063829787234
     ],
     "cfg": {
-      "atr_min": 5.0,
+      "atr_min": 8.0,
       "drive_spread": 3.0,
       "drive_lb": 18,
       "drive_buf": 1.0,
-      "chop_dev": 1.2,
+      "chop_dev": 0.8,
       "stop": 0.75,
       "trail": 0.5,
       "tp": 2.5,
-      "hold": 72,
+      "hold": 48,
       "risk": 200.0,
-      "mt": 4,
+      "mt": 3,
       "ml": 2,
-      "dls": 300.0,
-      "cool": 2
+      "dls": 250.0,
+      "cool": 0
     },
     "outcomes": {
-      "target_hit": 41,
-      "mll_breach": 2,
+      "target_hit": 43,
       "timeout": 4
     },
-    "updatedAt": "2026-02-10T08:34:29Z"
+    "updatedAt": "2026-02-10T12:22:33Z"
   }
 }
