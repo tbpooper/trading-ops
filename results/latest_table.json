@@ -1,0 +1,511 @@
+{
+  "rows": [
+    {
+      "artifact": "artifacts/backtest-artifacts-v2-2021",
+      "family": "v2",
+      "seed": 2021,
+      "pass5_rate": 0.10638297872340426,
+      "mll_rate": 0.0,
+      "timeout_rate": 0.6170212765957447,
+      "score": [
+        0.10638297872340426,
+        -0.6170212765957447
+      ],
+      "cfg": {
+        "spread": 2.5,
+        "max_trades": 2,
+        "cool": 6,
+        "dls": 250.0,
+        "rr": 1.5,
+        "atr_mult": 1.5,
+        "risk": 200,
+        "bo_lb": 10,
+        "max_losses": 3
+      },
+      "outcomes": {
+        "timeout": 29,
+        "target_hit": 18
+      },
+      "updatedAt": "2026-02-10T03:16:27Z"
+    },
+    {
+      "artifact": "artifacts/backtest-artifacts-v2-404",
+      "family": "v2",
+      "seed": 404,
+      "pass5_rate": 0.10638297872340426,
+      "mll_rate": 0.0,
+      "timeout_rate": 0.6170212765957447,
+      "score": [
+        0.10638297872340426,
+        -0.6170212765957447
+      ],
+      "cfg": {
+        "spread": 2.0,
+        "max_trades": 2,
+        "cool": 6,
+        "dls": 200.0,
+        "rr": 1.5,
+        "atr_mult": 1.5,
+        "risk": 200,
+        "bo_lb": 10,
+        "max_losses": 2
+      },
+      "outcomes": {
+        "timeout": 29,
+        "target_hit": 18
+      },
+      "updatedAt": "2026-02-10T03:16:27Z"
+    },
+    {
+      "artifact": "artifacts/backtest-artifacts-v7-777",
+      "family": "v7",
+      "seed": 777,
+      "pass5_rate": 0.2765957446808511,
+      "mll_rate": 0.02127659574468085,
+      "timeout_rate": 0.10638297872340426,
+      "score": [
+        0.2765957446808511,
+        -0.10638297872340426
+      ],
+      "cfg": {
+        "atr_min": 10.0,
+        "drive_spread": 3.0,
+        "drive_lb": 18,
+        "drive_buf": 0.0,
+        "chop_dev": 1.2,
+        "stop": 1.0,
+        "trail": 0.5,
+        "tp": 2.0,
+        "hold": 48,
+        "risk": 200.0,
+        "mt": 4,
+        "ml": 2,
+        "dls": 200.0,
+        "cool": 4
+      },
+      "outcomes": {
+        "target_hit": 41,
+        "mll_breach": 1,
+        "timeout": 5
+      },
+      "updatedAt": "2026-02-10T03:41:43Z"
+    },
+    {
+      "artifact": "artifacts/backtest-artifacts-v5-777",
+      "family": "v5",
+      "seed": 777,
+      "pass5_rate": 0.2553191489361702,
+      "mll_rate": 0.0,
+      "timeout_rate": 0.1276595744680851,
+      "score": [
+        0.2553191489361702,
+        -0.1276595744680851
+      ],
+      "cfg": {
+        "min_spread": 1.5,
+        "atr_min": 5.0,
+        "lookback": 9,
+        "use_retest": false,
+        "retest_deadline": 3,
+        "eps": 5.0,
+        "stop_atr": 0.75,
+        "trail_atr": 0.5,
+        "max_hold": 72,
+        "tp_atr": null,
+        "max_trades": 4,
+        "max_losses": 2,
+        "daily_loss": 300.0,
+        "cool": 0,
+        "risk": 200.0
+      },
+      "outcomes": {
+        "target_hit": 41,
+        "timeout": 6
+      },
+      "updatedAt": "2026-02-10T03:16:28Z"
+    },
+    {
+      "artifact": "artifacts/backtest-artifacts-v2-777",
+      "family": "v2",
+      "seed": 777,
+      "pass5_rate": 0.10638297872340426,
+      "mll_rate": 0.0,
+      "timeout_rate": 0.6170212765957447,
+      "score": [
+        0.10638297872340426,
+        -0.6170212765957447
+      ],
+      "cfg": {
+        "spread": 2.5,
+        "max_trades": 2,
+        "cool": 2,
+        "dls": 250.0,
+        "rr": 1.5,
+        "atr_mult": 1.5,
+        "risk": 200,
+        "bo_lb": 10,
+        "max_losses": 2
+      },
+      "outcomes": {
+        "timeout": 29,
+        "target_hit": 18
+      },
+      "updatedAt": "2026-02-10T03:16:27Z"
+    },
+    {
+      "artifact": "artifacts/backtest-artifacts-v6-404",
+      "family": "v6",
+      "seed": 404,
+      "pass5_rate": 0.2553191489361702,
+      "mll_rate": 0.0,
+      "timeout_rate": 0.10638297872340426,
+      "score": [
+        0.2553191489361702,
+        -0.10638297872340426
+      ],
+      "cfg": {
+        "orb_minutes": 45,
+        "buffer": 0.5,
+        "trend": true,
+        "min_spread": 3.0,
+        "stop": 0.75,
+        "trail": 0.5,
+        "tp": 2.0,
+        "hold": 36,
+        "risk": 200.0,
+        "mt": 2,
+        "ml": 2,
+        "dls": 300.0
+      },
+      "outcomes": {
+        "target_hit": 42,
+        "timeout": 5
+      },
+      "updatedAt": "2026-02-10T03:16:27Z"
+    },
+    {
+      "artifact": "artifacts/backtest-artifacts-v6-2021",
+      "family": "v6",
+      "seed": 2021,
+      "pass5_rate": 0.2553191489361702,
+      "mll_rate": 0.0,
+      "timeout_rate": 0.10638297872340426,
+      "score": [
+        0.2553191489361702,
+        -0.10638297872340426
+      ],
+      "cfg": {
+        "orb_minutes": 45,
+        "buffer": 1.5,
+        "trend": true,
+        "min_spread": 3.0,
+        "stop": 0.75,
+        "trail": 0.5,
+        "tp": 2.0,
+        "hold": 48,
+        "risk": 200.0,
+        "mt": 2,
+        "ml": 2,
+        "dls": 250.0
+      },
+      "outcomes": {
+        "target_hit": 42,
+        "timeout": 5
+      },
+      "updatedAt": "2026-02-10T03:16:26Z"
+    },
+    {
+      "artifact": "artifacts/backtest-artifacts-v7-2021",
+      "family": "v7",
+      "seed": 2021,
+      "pass5_rate": 0.2978723404255319,
+      "mll_rate": 0.0,
+      "timeout_rate": 0.1276595744680851,
+      "score": [
+        0.2978723404255319,
+        -0.1276595744680851
+      ],
+      "cfg": {
+        "atr_min": 5.0,
+        "drive_spread": 3.0,
+        "drive_lb": 9,
+        "drive_buf": 0.0,
+        "chop_dev": 0.6,
+        "stop": 0.75,
+        "trail": 0.5,
+        "tp": null,
+        "hold": 72,
+        "risk": 200.0,
+        "mt": 3,
+        "ml": 2,
+        "dls": 200.0,
+        "cool": 6
+      },
+      "outcomes": {
+        "target_hit": 41,
+        "timeout": 6
+      },
+      "updatedAt": "2026-02-10T03:16:29Z"
+    },
+    {
+      "artifact": "artifacts/backtest-artifacts-v7-404",
+      "family": "v7",
+      "seed": 404,
+      "pass5_rate": 0.3191489361702128,
+      "mll_rate": 0.0425531914893617,
+      "timeout_rate": 0.0851063829787234,
+      "score": [
+        0.3191489361702128,
+        -0.0851063829787234
+      ],
+      "cfg": {
+        "atr_min": 5.0,
+        "drive_spread": 3.0,
+        "drive_lb": 18,
+        "drive_buf": 1.0,
+        "chop_dev": 1.2,
+        "stop": 0.75,
+        "trail": 0.5,
+        "tp": 2.5,
+        "hold": 72,
+        "risk": 200.0,
+        "mt": 4,
+        "ml": 2,
+        "dls": 300.0,
+        "cool": 2
+      },
+      "outcomes": {
+        "target_hit": 41,
+        "mll_breach": 2,
+        "timeout": 4
+      },
+      "updatedAt": "2026-02-10T03:16:28Z"
+    },
+    {
+      "artifact": "artifacts/backtest-artifacts-v7-1337",
+      "family": "v7",
+      "seed": 1337,
+      "pass5_rate": 0.2978723404255319,
+      "mll_rate": 0.0,
+      "timeout_rate": 0.1276595744680851,
+      "score": [
+        0.2978723404255319,
+        -0.1276595744680851
+      ],
+      "cfg": {
+        "atr_min": 5.0,
+        "drive_spread": 3.0,
+        "drive_lb": 12,
+        "drive_buf": 0.5,
+        "chop_dev": 0.6,
+        "stop": 0.75,
+        "trail": 0.5,
+        "tp": 2.0,
+        "hold": 60,
+        "risk": 150.0,
+        "mt": 4,
+        "ml": 2,
+        "dls": 200.0,
+        "cool": 4
+      },
+      "outcomes": {
+        "target_hit": 41,
+        "timeout": 6
+      },
+      "updatedAt": "2026-02-10T03:41:37Z"
+    },
+    {
+      "artifact": "artifacts/backtest-artifacts-v5-1337",
+      "family": "v5",
+      "seed": 1337,
+      "pass5_rate": 0.2765957446808511,
+      "mll_rate": 0.0425531914893617,
+      "timeout_rate": 0.1276595744680851,
+      "score": [
+        0.2765957446808511,
+        -0.1276595744680851
+      ],
+      "cfg": {
+        "min_spread": 2.0,
+        "atr_min": 10.0,
+        "lookback": 12,
+        "use_retest": true,
+        "retest_deadline": 6,
+        "eps": 3.0,
+        "stop_atr": 0.75,
+        "trail_atr": 0.5,
+        "max_hold": 36,
+        "tp_atr": 2.0,
+        "max_trades": 4,
+        "max_losses": 2,
+        "daily_loss": 300.0,
+        "cool": 4,
+        "risk": 200.0
+      },
+      "outcomes": {
+        "target_hit": 39,
+        "mll_breach": 2,
+        "timeout": 6
+      },
+      "updatedAt": "2026-02-10T03:16:29Z"
+    },
+    {
+      "artifact": "artifacts/backtest-artifacts-v2-1337",
+      "family": "v2",
+      "seed": 1337,
+      "pass5_rate": 0.10638297872340426,
+      "mll_rate": 0.0,
+      "timeout_rate": 0.6170212765957447,
+      "score": [
+        0.10638297872340426,
+        -0.6170212765957447
+      ],
+      "cfg": {
+        "spread": 2.5,
+        "max_trades": 2,
+        "cool": 4,
+        "dls": 250.0,
+        "rr": 1.5,
+        "atr_mult": 1.5,
+        "risk": 200,
+        "bo_lb": 10,
+        "max_losses": 3
+      },
+      "outcomes": {
+        "timeout": 29,
+        "target_hit": 18
+      },
+      "updatedAt": "2026-02-10T03:16:28Z"
+    },
+    {
+      "artifact": "artifacts/backtest-artifacts-v6-1337",
+      "family": "v6",
+      "seed": 1337,
+      "pass5_rate": 0.19148936170212766,
+      "mll_rate": 0.0,
+      "timeout_rate": 0.3191489361702128,
+      "score": [
+        0.19148936170212766,
+        -0.3191489361702128
+      ],
+      "cfg": {
+        "orb_minutes": 45,
+        "buffer": 0.5,
+        "trend": true,
+        "min_spread": 2.0,
+        "stop": 0.75,
+        "trail": 0.5,
+        "tp": 3.0,
+        "hold": 36,
+        "risk": 200.0,
+        "mt": 2,
+        "ml": 2,
+        "dls": 200.0
+      },
+      "outcomes": {
+        "target_hit": 32,
+        "timeout": 15
+      },
+      "updatedAt": "2026-02-10T03:16:30Z"
+    },
+    {
+      "artifact": "artifacts/backtest-artifacts-v6-777",
+      "family": "v6",
+      "seed": 777,
+      "pass5_rate": 0.19148936170212766,
+      "mll_rate": 0.0,
+      "timeout_rate": 0.0851063829787234,
+      "score": [
+        0.19148936170212766,
+        -0.0851063829787234
+      ],
+      "cfg": {
+        "orb_minutes": 15,
+        "buffer": 1.5,
+        "trend": false,
+        "min_spread": 0.0,
+        "stop": 0.75,
+        "trail": 0.5,
+        "tp": 3.0,
+        "hold": 36,
+        "risk": 200.0,
+        "mt": 2,
+        "ml": 2,
+        "dls": 250.0
+      },
+      "outcomes": {
+        "target_hit": 43,
+        "timeout": 4
+      },
+      "updatedAt": "2026-02-10T03:16:30Z"
+    },
+    {
+      "artifact": "artifacts/backtest-artifacts-v5-2021",
+      "family": "v5",
+      "seed": 2021,
+      "pass5_rate": 0.2765957446808511,
+      "mll_rate": 0.0,
+      "timeout_rate": 0.1702127659574468,
+      "score": [
+        0.2765957446808511,
+        -0.1702127659574468
+      ],
+      "cfg": {
+        "min_spread": 1.0,
+        "atr_min": 12.0,
+        "lookback": 9,
+        "use_retest": true,
+        "retest_deadline": 3,
+        "eps": 5.0,
+        "stop_atr": 0.75,
+        "trail_atr": 0.5,
+        "max_hold": 36,
+        "tp_atr": 3.0,
+        "max_trades": 2,
+        "max_losses": 2,
+        "daily_loss": 200.0,
+        "cool": 2,
+        "risk": 200.0
+      },
+      "outcomes": {
+        "target_hit": 39,
+        "timeout": 8
+      },
+      "updatedAt": "2026-02-10T03:16:30Z"
+    },
+    {
+      "artifact": "artifacts/backtest-artifacts-v5-404",
+      "family": "v5",
+      "seed": 404,
+      "pass5_rate": 0.2765957446808511,
+      "mll_rate": 0.0,
+      "timeout_rate": 0.1276595744680851,
+      "score": [
+        0.2765957446808511,
+        -0.1276595744680851
+      ],
+      "cfg": {
+        "min_spread": 2.0,
+        "atr_min": 10.0,
+        "lookback": 12,
+        "use_retest": true,
+        "retest_deadline": 3,
+        "eps": 2.0,
+        "stop_atr": 0.75,
+        "trail_atr": 0.5,
+        "max_hold": 72,
+        "tp_atr": 3.0,
+        "max_trades": 4,
+        "max_losses": 2,
+        "daily_loss": 300.0,
+        "cool": 2,
+        "risk": 150.0
+      },
+      "outcomes": {
+        "target_hit": 41,
+        "timeout": 6
+      },
+      "updatedAt": "2026-02-10T03:16:31Z"
+    }
+  ]
+}
