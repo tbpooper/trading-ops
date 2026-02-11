@@ -1,8 +1,8 @@
 {
   "best": {
-    "artifact": "artifacts/backtest-artifacts-v5-404",
+    "artifact": "artifacts/backtest-artifacts-v5-1337",
     "family": "v5",
-    "seed": 404,
+    "seed": 1337,
     "pass5_rate": 0.2553191489361702,
     "mll_rate": 0.0,
     "timeout_rate": 0.1276595744680851,
@@ -13,24 +13,24 @@
     "cfg": {
       "min_spread": 1.0,
       "atr_min": 10.0,
-      "lookback": 12,
-      "use_retest": false,
+      "lookback": 18,
+      "use_retest": true,
       "retest_deadline": 6,
       "eps": 5.0,
       "stop_atr": 0.75,
       "trail_atr": 0.5,
       "max_hold": 72,
-      "tp_atr": 2.0,
+      "tp_atr": 4.0,
       "max_trades": 4,
       "max_losses": 2,
-      "daily_loss": 300.0,
+      "daily_loss": 200.0,
       "cool": 0,
-      "risk": 200.0
+      "risk": 150.0
     },
     "outcomes": {
       "target_hit": 41,
       "timeout": 6
     },
-    "updatedAt": "2026-02-11T17:18:32Z"
+    "updatedAt": "2026-02-11T20:05:25Z"
   }
 }
