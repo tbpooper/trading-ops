@@ -39,9 +39,28 @@ jobs:
 
       - name: Download data (MNQ 5m)
         run: |
+          set -e
           mkdir -p trading/data/inbound
-          curl -L -o trading/data/inbound/mnq1_5m_tv_unix.csv \
-            https://github.com/tbpooper/trading-ops/releases/download/data-v1/mnq1_5m_tv_unix.csv
+
+          # Robust download (GitHub sometimes returns an HTML error page).
+          url="https://github.com/tbpooper/trading-ops/releases/download/data-v1/mnq1_5m_tv_unix.csv"
+          out="trading/data/inbound/mnq1_5m_tv_unix.csv"
+
+          curl --fail --location --retry 5 --retry-delay 2 --connect-timeout 10 \
+            -o "$out" "$url"
+
+          # Validate header contains TradingView-style columns.
+          python - <<'PY'
+          import csv
+          p = "trading/data/inbound/mnq1_5m_tv_unix.csv"
+          with open(p, newline='') as f:
+            r = csv.DictReader(f)
+            assert r.fieldnames, "missing header"
+            want = {"time","open","high","low","close"}
+            missing = want - set([h.strip().lower() for h in r.fieldnames])
+            assert not missing, f"bad csv header; missing {sorted(missing)}; got={r.fieldnames[:10]}"
+          print("data_ok")
+          PY
 
       - name: Run search (bounded)
         env:
