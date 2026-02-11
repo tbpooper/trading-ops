@@ -48,29 +48,39 @@ class PathResult:
 
 def simulate_path(
     trades: Iterable,
+    days_order: Sequence[str],
     rules: Optional[Lucid25kRules] = None,
     daily_profit_cap: float = 750.0,
     daily_loss_cap: Optional[float] = 300.0,
     max_days: int = 30,
 ) -> PathResult:
+    """Simulate an eval path over *calendar trading days*.
+
+    Important: days_order must include days even when there are no trades.
+    This matches real eval time: if you buy on Monday and don't trade until
+    Wednesday, Monday+Tuesday still count as days elapsed.
+
+    (We treat "calendar" as the dataset's trading days; weekends/holidays are
+    absent from the candle series.)
+    """
+
     rules = rules or Lucid25kRules()
     tlist = sorted(list(trades), key=lambda t: t.exit_ts)
+
+    # bucket trades by exit-day
+    by_day: Dict[str, List] = defaultdict(list)
+    for t in tlist:
+        by_day[day_key(t.exit_ts)].append(t)
 
     bal = rules.start_balance
     total = 0.0
     largest = 0.0
     highest_close = rules.start_balance
 
-    days_order: List[str] = []
-    for t in tlist:
-        d = day_key(t.exit_ts)
-        if not days_order or days_order[-1] != d:
-            days_order.append(d)
-
     # simulate day by day, up to max_days or available days
-    for di, d in enumerate(days_order[:max_days], start=1):
+    for di, d in enumerate(list(days_order)[:max_days], start=1):
         day_profit = 0.0
-        for t in [x for x in tlist if day_key(x.exit_ts) == d]:
+        for t in by_day.get(d, []):
             if day_profit >= daily_profit_cap:
                 break
             if daily_loss_cap is not None and day_profit <= -abs(daily_loss_cap):
@@ -123,6 +133,7 @@ def days_to_pass_distribution(
         trades = list(gen_trades(sub))
         res = simulate_path(
             trades,
+            days_order=days[s : s + max_days],
             rules=rules,
             daily_profit_cap=daily_profit_cap,
             daily_loss_cap=daily_loss_cap,

@@ -46,6 +46,7 @@ def days_to_pass_distribution_multi(
         trades = list(gen_trades(sub_primary, sub_aux))
         res = simulate_path(
             trades,
+            days_order=days[s : s + max_days],
             daily_profit_cap=daily_profit_cap,
             daily_loss_cap=daily_loss_cap,
             max_days=max_days,
