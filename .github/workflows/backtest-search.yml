@@ -6,8 +6,8 @@ on:
     branches: [main]
   schedule:
     # Run frequently so results keep updating without manual clicks.
-    # Every hour at :05 UTC.
-    - cron: '5 * * * *'
+    # Twice per hour at :05 and :35 UTC.
+    - cron: '5,35 * * * *'
 
 concurrency:
   group: backtest-search
