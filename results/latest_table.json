@@ -4,12 +4,12 @@
       "artifact": "artifacts/backtest-artifacts-v2-2021",
       "family": "v2",
       "seed": 2021,
-      "pass5_rate": 0.10638297872340426,
+      "pass5_rate": 0.06382978723404255,
       "mll_rate": 0.0,
-      "timeout_rate": 0.6170212765957447,
+      "timeout_rate": 0.7872340425531915,
       "score": [
-        0.10638297872340426,
-        -0.6170212765957447
+        0.06382978723404255,
+        -0.7872340425531915
       ],
       "cfg": {
         "spread": 2.5,
@@ -23,21 +23,21 @@
         "max_losses": 3
       },
       "outcomes": {
-        "timeout": 29,
-        "target_hit": 18
+        "timeout": 37,
+        "target_hit": 10
       },
-      "updatedAt": "2026-02-11T03:18:18Z"
+      "updatedAt": "2026-02-11T04:20:26Z"
     },
     {
       "artifact": "artifacts/backtest-artifacts-v2-404",
       "family": "v2",
       "seed": 404,
-      "pass5_rate": 0.10638297872340426,
+      "pass5_rate": 0.06382978723404255,
       "mll_rate": 0.0,
-      "timeout_rate": 0.6170212765957447,
+      "timeout_rate": 0.7872340425531915,
       "score": [
-        0.10638297872340426,
-        -0.6170212765957447
+        0.06382978723404255,
+        -0.7872340425531915
       ],
       "cfg": {
         "spread": 2.0,
@@ -51,20 +51,20 @@
         "max_losses": 2
       },
       "outcomes": {
-        "timeout": 29,
-        "target_hit": 18
+        "timeout": 37,
+        "target_hit": 10
       },
-      "updatedAt": "2026-02-11T03:18:22Z"
+      "updatedAt": "2026-02-11T04:20:26Z"
     },
     {
       "artifact": "artifacts/backtest-artifacts-v7-777",
       "family": "v7",
       "seed": 777,
-      "pass5_rate": 0.23404255319148937,
+      "pass5_rate": 0.2127659574468085,
       "mll_rate": 0.0,
       "timeout_rate": 0.0425531914893617,
       "score": [
-        0.23404255319148937,
+        0.2127659574468085,
         -0.0425531914893617
       ],
       "cfg": {
@@ -93,30 +93,30 @@
         "target_hit": 45,
         "timeout": 2
       },
-      "updatedAt": "2026-02-11T03:18:19Z"
+      "updatedAt": "2026-02-11T04:20:26Z"
     },
     {
       "artifact": "artifacts/backtest-artifacts-v5-777",
       "family": "v5",
       "seed": 777,
-      "pass5_rate": 0.2553191489361702,
-      "mll_rate": 0.0,
+      "pass5_rate": 0.23404255319148937,
+      "mll_rate": 0.0425531914893617,
       "timeout_rate": 0.1276595744680851,
       "score": [
-        0.2553191489361702,
+        0.23404255319148937,
         -0.1276595744680851
       ],
       "cfg": {
         "min_spread": 1.5,
-        "atr_min": 5.0,
-        "lookback": 9,
+        "atr_min": 10.0,
+        "lookback": 18,
         "use_retest": false,
         "retest_deadline": 3,
-        "eps": 5.0,
+        "eps": 8.0,
         "stop_atr": 0.75,
         "trail_atr": 0.5,
-        "max_hold": 72,
-        "tp_atr": null,
+        "max_hold": 48,
+        "tp_atr": 4.0,
         "max_trades": 4,
         "max_losses": 2,
         "daily_loss": 300.0,
@@ -124,21 +124,22 @@
         "risk": 200.0
       },
       "outcomes": {
-        "target_hit": 41,
+        "target_hit": 39,
+        "mll_breach": 2,
         "timeout": 6
       },
-      "updatedAt": "2026-02-11T03:18:22Z"
+      "updatedAt": "2026-02-11T04:20:29Z"
     },
     {
       "artifact": "artifacts/backtest-artifacts-v2-777",
       "family": "v2",
       "seed": 777,
-      "pass5_rate": 0.10638297872340426,
+      "pass5_rate": 0.06382978723404255,
       "mll_rate": 0.0,
-      "timeout_rate": 0.6170212765957447,
+      "timeout_rate": 0.7872340425531915,
       "score": [
-        0.10638297872340426,
-        -0.6170212765957447
+        0.06382978723404255,
+        -0.7872340425531915
       ],
       "cfg": {
         "spread": 2.5,
@@ -152,20 +153,20 @@
         "max_losses": 2
       },
       "outcomes": {
-        "timeout": 29,
-        "target_hit": 18
+        "timeout": 37,
+        "target_hit": 10
       },
-      "updatedAt": "2026-02-11T03:18:21Z"
+      "updatedAt": "2026-02-11T04:20:25Z"
     },
     {
       "artifact": "artifacts/backtest-artifacts-v6-404",
       "family": "v6",
       "seed": 404,
-      "pass5_rate": 0.2553191489361702,
+      "pass5_rate": 0.2127659574468085,
       "mll_rate": 0.0,
       "timeout_rate": 0.10638297872340426,
       "score": [
-        0.2553191489361702,
+        0.2127659574468085,
         -0.10638297872340426
       ],
       "cfg": {
@@ -186,17 +187,17 @@
         "target_hit": 42,
         "timeout": 5
       },
-      "updatedAt": "2026-02-11T03:18:22Z"
+      "updatedAt": "2026-02-11T04:20:24Z"
     },
     {
       "artifact": "artifacts/backtest-artifacts-v6-2021",
       "family": "v6",
       "seed": 2021,
-      "pass5_rate": 0.2553191489361702,
+      "pass5_rate": 0.2127659574468085,
       "mll_rate": 0.0,
       "timeout_rate": 0.10638297872340426,
       "score": [
-        0.2553191489361702,
+        0.2127659574468085,
         -0.10638297872340426
       ],
       "cfg": {
@@ -217,17 +218,17 @@
         "target_hit": 42,
         "timeout": 5
       },
-      "updatedAt": "2026-02-11T03:18:18Z"
+      "updatedAt": "2026-02-11T04:20:26Z"
     },
     {
       "artifact": "artifacts/backtest-artifacts-v7-2021",
       "family": "v7",
       "seed": 2021,
-      "pass5_rate": 0.2978723404255319,
+      "pass5_rate": 0.2553191489361702,
       "mll_rate": 0.0,
       "timeout_rate": 0.1702127659574468,
       "score": [
-        0.2978723404255319,
+        0.2553191489361702,
         -0.1702127659574468
       ],
       "cfg": {
@@ -256,17 +257,17 @@
         "target_hit": 39,
         "timeout": 8
       },
-      "updatedAt": "2026-02-11T03:18:21Z"
+      "updatedAt": "2026-02-11T04:20:24Z"
     },
     {
       "artifact": "artifacts/backtest-artifacts-v7-404",
       "family": "v7",
       "seed": 404,
-      "pass5_rate": 0.19148936170212766,
+      "pass5_rate": 0.1702127659574468,
       "mll_rate": 0.0425531914893617,
       "timeout_rate": 0.2978723404255319,
       "score": [
-        0.19148936170212766,
+        0.1702127659574468,
         -0.2978723404255319
       ],
       "cfg": {
@@ -296,7 +297,7 @@
         "timeout": 14,
         "mll_breach": 2
       },
-      "updatedAt": "2026-02-11T03:18:20Z"
+      "updatedAt": "2026-02-11T04:20:27Z"
     },
     {
       "artifact": "artifacts/backtest-artifacts-v7-1337",
@@ -335,53 +336,52 @@
         "target_hit": 38,
         "timeout": 9
       },
-      "updatedAt": "2026-02-11T03:18:21Z"
+      "updatedAt": "2026-02-11T04:20:28Z"
     },
     {
       "artifact": "artifacts/backtest-artifacts-v5-1337",
       "family": "v5",
       "seed": 1337,
-      "pass5_rate": 0.2765957446808511,
-      "mll_rate": 0.0425531914893617,
+      "pass5_rate": 0.2553191489361702,
+      "mll_rate": 0.0,
       "timeout_rate": 0.1276595744680851,
       "score": [
-        0.2765957446808511,
+        0.2553191489361702,
         -0.1276595744680851
       ],
       "cfg": {
-        "min_spread": 2.0,
+        "min_spread": 1.0,
         "atr_min": 10.0,
-        "lookback": 12,
+        "lookback": 18,
         "use_retest": true,
         "retest_deadline": 6,
-        "eps": 3.0,
+        "eps": 5.0,
         "stop_atr": 0.75,
         "trail_atr": 0.5,
-        "max_hold": 36,
-        "tp_atr": 2.0,
+        "max_hold": 72,
+        "tp_atr": 4.0,
         "max_trades": 4,
         "max_losses": 2,
-        "daily_loss": 300.0,
-        "cool": 4,
-        "risk": 200.0
+        "daily_loss": 200.0,
+        "cool": 0,
+        "risk": 150.0
       },
       "outcomes": {
-        "target_hit": 39,
-        "mll_breach": 2,
+        "target_hit": 41,
         "timeout": 6
       },
-      "updatedAt": "2026-02-11T03:18:21Z"
+      "updatedAt": "2026-02-11T04:20:28Z"
     },
     {
       "artifact": "artifacts/backtest-artifacts-v2-1337",
       "family": "v2",
       "seed": 1337,
-      "pass5_rate": 0.10638297872340426,
+      "pass5_rate": 0.06382978723404255,
       "mll_rate": 0.0,
-      "timeout_rate": 0.6170212765957447,
+      "timeout_rate": 0.7872340425531915,
       "score": [
-        0.10638297872340426,
-        -0.6170212765957447
+        0.06382978723404255,
+        -0.7872340425531915
       ],
       "cfg": {
         "spread": 2.5,
@@ -395,20 +395,20 @@
         "max_losses": 3
       },
       "outcomes": {
-        "timeout": 29,
-        "target_hit": 18
+        "timeout": 37,
+        "target_hit": 10
       },
-      "updatedAt": "2026-02-11T03:18:19Z"
+      "updatedAt": "2026-02-11T04:20:24Z"
     },
     {
       "artifact": "artifacts/backtest-artifacts-v6-1337",
       "family": "v6",
       "seed": 1337,
-      "pass5_rate": 0.19148936170212766,
+      "pass5_rate": 0.14893617021276595,
       "mll_rate": 0.0,
       "timeout_rate": 0.3191489361702128,
       "score": [
-        0.19148936170212766,
+        0.14893617021276595,
         -0.3191489361702128
       ],
       "cfg": {
@@ -429,106 +429,107 @@
         "target_hit": 32,
         "timeout": 15
       },
-      "updatedAt": "2026-02-11T03:18:18Z"
+      "updatedAt": "2026-02-11T04:20:28Z"
     },
     {
       "artifact": "artifacts/backtest-artifacts-v6-777",
       "family": "v6",
       "seed": 777,
-      "pass5_rate": 0.19148936170212766,
+      "pass5_rate": 0.1702127659574468,
       "mll_rate": 0.0,
-      "timeout_rate": 0.0851063829787234,
+      "timeout_rate": 0.3191489361702128,
       "score": [
-        0.19148936170212766,
-        -0.0851063829787234
+        0.1702127659574468,
+        -0.3191489361702128
       ],
       "cfg": {
-        "orb_minutes": 15,
-        "buffer": 1.5,
+        "orb_minutes": 45,
+        "buffer": 1.0,
         "trend": false,
-        "min_spread": 0.0,
+        "min_spread": 1.0,
         "stop": 0.75,
         "trail": 0.5,
-        "tp": 3.0,
-        "hold": 36,
+        "tp": 2.0,
+        "hold": 48,
         "risk": 200.0,
         "mt": 2,
         "ml": 2,
         "dls": 250.0
       },
       "outcomes": {
-        "target_hit": 43,
-        "timeout": 4
+        "target_hit": 32,
+        "timeout": 15
       },
-      "updatedAt": "2026-02-11T03:18:17Z"
+      "updatedAt": "2026-02-11T04:20:27Z"
     },
     {
       "artifact": "artifacts/backtest-artifacts-v5-2021",
       "family": "v5",
       "seed": 2021,
-      "pass5_rate": 0.2765957446808511,
-      "mll_rate": 0.0,
-      "timeout_rate": 0.1702127659574468,
-      "score": [
-        0.2765957446808511,
-        -0.1702127659574468
-      ],
-      "cfg": {
-        "min_spread": 1.0,
-        "atr_min": 12.0,
-        "lookback": 9,
-        "use_retest": true,
-        "retest_deadline": 3,
-        "eps": 5.0,
-        "stop_atr": 0.75,
-        "trail_atr": 0.5,
-        "max_hold": 36,
-        "tp_atr": 3.0,
-        "max_trades": 2,
-        "max_losses": 2,
-        "daily_loss": 200.0,
-        "cool": 2,
-        "risk": 200.0
-      },
-      "outcomes": {
-        "target_hit": 39,
-        "timeout": 8
-      },
-      "updatedAt": "2026-02-11T03:18:22Z"
-    },
-    {
-      "artifact": "artifacts/backtest-artifacts-v5-404",
-      "family": "v5",
-      "seed": 404,
-      "pass5_rate": 0.2765957446808511,
-      "mll_rate": 0.0,
+      "pass5_rate": 0.23404255319148937,
+      "mll_rate": 0.0425531914893617,
       "timeout_rate": 0.1276595744680851,
       "score": [
-        0.2765957446808511,
+        0.23404255319148937,
         -0.1276595744680851
       ],
       "cfg": {
-        "min_spread": 2.0,
+        "min_spread": 1.5,
         "atr_min": 10.0,
-        "lookback": 12,
-        "use_retest": true,
-        "retest_deadline": 3,
-        "eps": 2.0,
+        "lookback": 18,
+        "use_retest": false,
+        "retest_deadline": 9,
+        "eps": 3.0,
         "stop_atr": 0.75,
         "trail_atr": 0.5,
         "max_hold": 72,
         "tp_atr": 3.0,
         "max_trades": 4,
         "max_losses": 2,
-        "daily_loss": 300.0,
+        "daily_loss": 250.0,
         "cool": 2,
-        "risk": 150.0
+        "risk": 200.0
+      },
+      "outcomes": {
+        "target_hit": 39,
+        "mll_breach": 2,
+        "timeout": 6
+      },
+      "updatedAt": "2026-02-11T04:20:30Z"
+    },
+    {
+      "artifact": "artifacts/backtest-artifacts-v5-404",
+      "family": "v5",
+      "seed": 404,
+      "pass5_rate": 0.2553191489361702,
+      "mll_rate": 0.0,
+      "timeout_rate": 0.1276595744680851,
+      "score": [
+        0.2553191489361702,
+        -0.1276595744680851
+      ],
+      "cfg": {
+        "min_spread": 1.0,
+        "atr_min": 10.0,
+        "lookback": 12,
+        "use_retest": false,
+        "retest_deadline": 6,
+        "eps": 5.0,
+        "stop_atr": 0.75,
+        "trail_atr": 0.5,
+        "max_hold": 72,
+        "tp_atr": 2.0,
+        "max_trades": 4,
+        "max_losses": 2,
+        "daily_loss": 300.0,
+        "cool": 0,
+        "risk": 200.0
       },
       "outcomes": {
         "target_hit": 41,
         "timeout": 6
       },
-      "updatedAt": "2026-02-11T03:18:20Z"
+      "updatedAt": "2026-02-11T04:20:25Z"
     }
   ]
 }
