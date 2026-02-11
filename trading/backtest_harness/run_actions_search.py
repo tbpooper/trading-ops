@@ -219,18 +219,37 @@ def run_family_v6(candles, rng: random.Random, max_seconds: float):
 
 
 def run_family_v7(candles, rng: random.Random, max_seconds: float):
-    from trading.backtest_harness.strategy_v7_regime_switch import Params, Regime, Drive, Chop, Exits, Governor, generate_trades
+    from trading.backtest_harness.strategy_v7_regime_switch import (
+        Params,
+        Regime,
+        Drive,
+        Chop,
+        Exits,
+        Governor,
+        generate_trades,
+    )
 
     space = {
         "atr_min": [5.0, 8.0, 10.0, 12.0],
-        "drive_spread": [1.0, 2.0, 3.0],
+        "drive_spread": [2.0, 3.0, 4.0],
+        "chop_max_spread": [0.5, 1.0, 1.5, 2.0],
         "drive_lb": [9, 12, 18],
         "drive_buf": [0.0, 0.5, 1.0],
         "chop_dev": [0.6, 0.8, 1.0, 1.2],
-        "stop": [0.75, 1.0, 1.25],
-        "trail": [0.5, 0.75, 1.0],
-        "tp": [2.0, 2.5, 3.0, None],
-        "hold": [36, 48, 60, 72],
+        "chop_rev": [True, False],
+
+        # drive exits
+        "d_stop": [0.75, 1.0, 1.25],
+        "d_trail": [0.75, 1.0],
+        "d_tp": [None, 3.0, 4.0],
+        "d_hold": [60, 72, 96],
+
+        # chop exits
+        "c_stop": [0.5, 0.75, 1.0],
+        "c_trail": [0.5, 0.75],
+        "c_tp": [1.5, 2.0, 2.5],
+        "c_hold": [24, 36, 48],
+
         "risk": [100.0, 150.0, 200.0],
         "mt": [2, 3, 4],
         "ml": [1, 2],
@@ -246,11 +265,31 @@ def run_family_v7(candles, rng: random.Random, max_seconds: float):
         cfg = {k: rng.choice(v) for k, v in space.items()}
         p = Params(
             risk_per_trade_dollars=float(cfg["risk"]),
-            regime=Regime(atr_min_points=float(cfg["atr_min"]), drive_spread_points=float(cfg["drive_spread"])),
+            regime=Regime(
+                atr_min_points=float(cfg["atr_min"]),
+                drive_spread_points=float(cfg["drive_spread"]),
+                chop_max_spread_points=float(cfg["chop_max_spread"]),
+            ),
             drive=Drive(lookback=int(cfg["drive_lb"]), buffer_points=float(cfg["drive_buf"])),
-            chop=Chop(dev_atr_mult=float(cfg["chop_dev"])),
-            exits=Exits(stop_atr_mult=float(cfg["stop"]), trail_atr_mult=float(cfg["trail"]), tp_atr_mult=cfg["tp"], max_hold_bars=int(cfg["hold"])),
-            governor=Governor(max_trades_per_day=int(cfg["mt"]), max_losses_per_day=int(cfg["ml"]), daily_loss_stop=float(cfg["dls"]), cooldown_bars_after_loss=int(cfg["cool"])),
+            chop=Chop(dev_atr_mult=float(cfg["chop_dev"]), require_reversal_bar=bool(cfg["chop_rev"])),
+            exits_drive=Exits(
+                stop_atr_mult=float(cfg["d_stop"]),
+                trail_atr_mult=float(cfg["d_trail"]),
+                tp_atr_mult=cfg["d_tp"],
+                max_hold_bars=int(cfg["d_hold"]),
+            ),
+            exits_chop=Exits(
+                stop_atr_mult=float(cfg["c_stop"]),
+                trail_atr_mult=float(cfg["c_trail"]),
+                tp_atr_mult=float(cfg["c_tp"]),
+                max_hold_bars=int(cfg["c_hold"]),
+            ),
+            governor=Governor(
+                max_trades_per_day=int(cfg["mt"]),
+                max_losses_per_day=int(cfg["ml"]),
+                daily_loss_stop=float(cfg["dls"]),
+                cooldown_bars_after_loss=int(cfg["cool"]),
+            ),
         )
         out = days_to_pass_distribution(
             candles,

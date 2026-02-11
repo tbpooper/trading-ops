@@ -1,21 +1,24 @@
-"""Strategy v7: Regime switch (drive vs chop vs no-trade).
+"""Strategy v7.1: Regime switch (drive vs chop vs no-trade) with separate exits.
 
-Goal: step-change pass<=5 by not forcing one behavior on all days.
+Purpose: break the v7 plateau by not sharing the same exit logic across two very
+different market behaviors.
 
-Regimes (computed on the fly using EMAs + ATR):
+Regimes (computed using EMAs + ATR):
 - DRIVE: trend strength high (ema spread >= threshold) and ATR >= threshold.
-  Entry: breakout/continuation (similar to v5/v2)
-- CHOP: atr ok but trend strength low.
-  Entry: mean reversion back to fast EMA after excursion (simple fade)
-- NO_TRADE: low ATR (skip)
+  Entry: breakout/continuation.
+  Exits: trend-friendly (wider trail / longer hold).
+- CHOP: ATR ok but trend strength low.
+  Entry: mean reversion back to fast EMA after excursion, but with confirmation.
+  Exits: fast mean-reversion exits (tighter).
+- NO_TRADE: ATR too low OR spread in the "middle" (neither clean drive nor clean chop).
 
-This is research-only and intentionally simple. No partials.
+This is research-only; no partials.
 """
 
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import List, Literal, Optional, Sequence
+from typing import List, Literal, Optional
 
 from trading.backtest_harness.tv_csv import Candle
 from trading.backtest_harness.strategy_v0 import ema, atr, dollars_from_points, TICK, TICK_VALUE
@@ -50,7 +53,13 @@ class Regime:
     atr_len: int = 14
 
     atr_min_points: float = 8.0
+
+    # if spread >= drive_spread_points => DRIVE
     drive_spread_points: float = 2.0
+
+    # if spread <= chop_max_spread_points => CHOP
+    # else (between) => NO_TRADE
+    chop_max_spread_points: float = 1.5
 
 
 @dataclass(frozen=True)
@@ -61,9 +70,12 @@ class Drive:
 
 @dataclass(frozen=True)
 class Chop:
-    # mean reversion entry: if price deviates from fast EMA by >= k*ATR, fade back
+    # deviation threshold away from fast EMA (in ATR units)
     dev_atr_mult: float = 0.8
-    # require RSI filter? (skip for now)
+
+    # confirmation: require reversal bar before fading
+    # long fade requires close >= open; short fade requires close <= open.
+    require_reversal_bar: bool = True
 
 
 @dataclass(frozen=True)
@@ -94,7 +106,10 @@ class Params:
     regime: Regime = Regime()
     drive: Drive = Drive()
     chop: Chop = Chop()
-    exits: Exits = Exits()
+
+    exits_drive: Exits = Exits(trail_atr_mult=0.75, tp_atr_mult=None, max_hold_bars=72)
+    exits_chop: Exits = Exits(trail_atr_mult=0.5, tp_atr_mult=2.0, max_hold_bars=36)
+
     governor: Governor = Governor()
 
 
@@ -128,11 +143,14 @@ def generate_trades(candles: List[Candle], p: Params) -> List[Trade]:
     ef = ema(closes, p.regime.ema_fast)
     es = ema(closes, p.regime.ema_slow)
     a = atr(candles, p.regime.atr_len)
-    ax = atr(candles, p.exits.atr_len)
+
+    ax_drive = atr(candles, p.exits_drive.atr_len)
+    ax_chop = atr(candles, p.exits_chop.atr_len)
 
     trades: List[Trade] = []
 
     in_pos: Optional[Side] = None
+    in_regime: Optional[str] = None
     qty = 0
     entry_i = -1
     entry_px = 0.0
@@ -165,8 +183,11 @@ def generate_trades(candles: List[Candle], p: Params) -> List[Trade]:
             hi = highs[i]
             lo = lows[i]
 
+            exits = p.exits_drive if in_regime == "drive" else p.exits_chop
+            ax = ax_drive if in_regime == "drive" else ax_chop
+
             if ax[i] is not None:
-                tr = float(ax[i]) * p.exits.trail_atr_mult
+                tr = float(ax[i]) * exits.trail_atr_mult
                 if in_pos == "long":
                     trail = max(trail, hi - tr)
                     sl_eff = max(sl, trail)
@@ -187,7 +208,7 @@ def generate_trades(candles: List[Candle], p: Params) -> List[Trade]:
             elif hit_tp:
                 exit_px = tp
 
-            if exit_px is None and (i - entry_i) >= p.exits.max_hold_bars:
+            if exit_px is None and (i - entry_i) >= exits.max_hold_bars:
                 exit_px = closes[i]
 
             if exit_px is not None:
@@ -218,6 +239,7 @@ def generate_trades(candles: List[Candle], p: Params) -> List[Trade]:
                     stop_for_day = True
 
                 in_pos = None
+                in_regime = None
 
         if in_pos is not None:
             continue
@@ -231,53 +253,82 @@ def generate_trades(candles: List[Candle], p: Params) -> List[Trade]:
         if not in_session(candles[j].ts, p.session_start_min_utc, p.session_end_min_utc):
             continue
 
-        if ef[j] is None or es[j] is None or a[j] is None or ax[j] is None:
+        if ef[j] is None or es[j] is None or a[j] is None:
             continue
 
         atrp = float(a[j])
-        spread = abs(float(ef[j]) - float(es[j]))
         if atrp < p.regime.atr_min_points:
             continue  # NO_TRADE
 
-        drive = spread >= p.regime.drive_spread_points
+        spread = abs(float(ef[j]) - float(es[j]))
+
+        is_drive = spread >= p.regime.drive_spread_points
+        is_chop = spread <= p.regime.chop_max_spread_points
+        if not (is_drive or is_chop):
+            continue  # NO_TRADE (middling regime)
 
         long_sig = False
         short_sig = False
+        regime = "drive" if is_drive else "chop"
 
-        if drive:
+        if is_drive:
             lb = p.drive.lookback
-            if j - lb >= 1:
-                rng_high = max(highs[j - lb : j])
-                rng_low = min(lows[j - lb : j])
-                buf = p.drive.buffer_points
-                long_sig = closes[j] > rng_high + buf and float(ef[j]) > float(es[j])
-                short_sig = closes[j] < rng_low - buf and float(ef[j]) < float(es[j])
+            if j - lb < 1:
+                continue
+            rng_high = max(highs[j - lb : j])
+            rng_low = min(lows[j - lb : j])
+            buf = p.drive.buffer_points
+            long_sig = closes[j] > rng_high + buf and float(ef[j]) > float(es[j])
+            short_sig = closes[j] < rng_low - buf and float(ef[j]) < float(es[j])
         else:
             # CHOP: fade excursion away from fast EMA by >= dev_atr_mult*ATR
-            dev = float(ax[j]) * p.chop.dev_atr_mult
-            if closes[j] >= float(ef[j]) + dev:
+            if ax_chop[j] is None:
+                continue
+            dev = float(ax_chop[j]) * p.chop.dev_atr_mult
+            # confirmation
+            rev_ok_long = True
+            rev_ok_short = True
+            if p.chop.require_reversal_bar:
+                rev_ok_long = closes[j] >= opens[j]
+                rev_ok_short = closes[j] <= opens[j]
+
+            if closes[j] >= float(ef[j]) + dev and rev_ok_short:
                 short_sig = True
-            elif closes[j] <= float(ef[j]) - dev:
+            elif closes[j] <= float(ef[j]) - dev and rev_ok_long:
                 long_sig = True
 
         if not (long_sig or short_sig):
             continue
 
         in_pos = "long" if long_sig else "short"
+        in_regime = regime
         entry_i = i
         entry_px = opens[i]
 
-        stop_dist = float(ax[j]) * p.exits.stop_atr_mult
+        exits = p.exits_drive if regime == "drive" else p.exits_chop
+        ax = ax_drive if regime == "drive" else ax_chop
+        if ax[j] is None:
+            continue
+
+        stop_dist = float(ax[j]) * exits.stop_atr_mult
         qty = calc_qty(stop_dist, p.risk_per_trade_dollars, p.max_micros)
 
         if in_pos == "long":
             sl = entry_px - stop_dist
             trail = sl
-            tp = entry_px + (float(ax[j]) * p.exits.tp_atr_mult) if p.exits.tp_atr_mult is not None else entry_px + stop_dist * 3.0
+            tp = (
+                entry_px + float(ax[j]) * exits.tp_atr_mult
+                if exits.tp_atr_mult is not None
+                else entry_px + stop_dist * 3.0
+            )
         else:
             sl = entry_px + stop_dist
             trail = sl
-            tp = entry_px - (float(ax[j]) * p.exits.tp_atr_mult) if p.exits.tp_atr_mult is not None else entry_px - stop_dist * 3.0
+            tp = (
+                entry_px - float(ax[j]) * exits.tp_atr_mult
+                if exits.tp_atr_mult is not None
+                else entry_px - stop_dist * 3.0
+            )
 
         trades_today += 1
 
