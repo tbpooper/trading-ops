@@ -26,7 +26,7 @@
         "timeout": 37,
         "target_hit": 10
       },
-      "updatedAt": "2026-02-11T22:01:10Z"
+      "updatedAt": "2026-02-11T23:29:59Z"
     },
     {
       "artifact": "artifacts/backtest-artifacts-v2-404",
@@ -54,7 +54,7 @@
         "timeout": 37,
         "target_hit": 10
       },
-      "updatedAt": "2026-02-11T22:01:13Z"
+      "updatedAt": "2026-02-11T23:30:02Z"
     },
     {
       "artifact": "artifacts/backtest-artifacts-v7-777",
@@ -93,7 +93,7 @@
         "target_hit": 45,
         "timeout": 2
       },
-      "updatedAt": "2026-02-11T22:01:14Z"
+      "updatedAt": "2026-02-11T23:30:02Z"
     },
     {
       "artifact": "artifacts/backtest-artifacts-v5-777",
@@ -128,7 +128,7 @@
         "mll_breach": 2,
         "timeout": 6
       },
-      "updatedAt": "2026-02-11T22:01:12Z"
+      "updatedAt": "2026-02-11T23:29:58Z"
     },
     {
       "artifact": "artifacts/backtest-artifacts-v2-777",
@@ -156,7 +156,7 @@
         "timeout": 37,
         "target_hit": 10
       },
-      "updatedAt": "2026-02-11T22:01:13Z"
+      "updatedAt": "2026-02-11T23:30:01Z"
     },
     {
       "artifact": "artifacts/backtest-artifacts-v6-404",
@@ -187,7 +187,7 @@
         "target_hit": 42,
         "timeout": 5
       },
-      "updatedAt": "2026-02-11T22:01:11Z"
+      "updatedAt": "2026-02-11T23:30:00Z"
     },
     {
       "artifact": "artifacts/backtest-artifacts-v6-2021",
@@ -218,7 +218,7 @@
         "target_hit": 42,
         "timeout": 5
       },
-      "updatedAt": "2026-02-11T22:01:13Z"
+      "updatedAt": "2026-02-11T23:30:02Z"
     },
     {
       "artifact": "artifacts/backtest-artifacts-v7-2021",
@@ -257,7 +257,7 @@
         "target_hit": 39,
         "timeout": 8
       },
-      "updatedAt": "2026-02-11T22:01:12Z"
+      "updatedAt": "2026-02-11T23:30:02Z"
     },
     {
       "artifact": "artifacts/backtest-artifacts-v7-404",
@@ -297,7 +297,7 @@
         "timeout": 14,
         "mll_breach": 2
       },
-      "updatedAt": "2026-02-11T22:01:11Z"
+      "updatedAt": "2026-02-11T23:29:59Z"
     },
     {
       "artifact": "artifacts/backtest-artifacts-v7-1337",
@@ -336,41 +336,42 @@
         "target_hit": 38,
         "timeout": 9
       },
-      "updatedAt": "2026-02-11T22:01:12Z"
+      "updatedAt": "2026-02-11T23:30:00Z"
     },
     {
       "artifact": "artifacts/backtest-artifacts-v5-1337",
       "family": "v5",
       "seed": 1337,
-      "pass5_rate": 0.2553191489361702,
-      "mll_rate": 0.0,
+      "pass5_rate": 0.23404255319148937,
+      "mll_rate": 0.0425531914893617,
       "timeout_rate": 0.1276595744680851,
       "score": [
-        0.2553191489361702,
+        0.23404255319148937,
         -0.1276595744680851
       ],
       "cfg": {
-        "min_spread": 1.0,
+        "min_spread": 2.0,
         "atr_min": 10.0,
-        "lookback": 18,
+        "lookback": 12,
         "use_retest": true,
         "retest_deadline": 6,
-        "eps": 5.0,
+        "eps": 3.0,
         "stop_atr": 0.75,
         "trail_atr": 0.5,
-        "max_hold": 72,
-        "tp_atr": 4.0,
+        "max_hold": 36,
+        "tp_atr": 2.0,
         "max_trades": 4,
         "max_losses": 2,
-        "daily_loss": 200.0,
-        "cool": 0,
-        "risk": 150.0
+        "daily_loss": 300.0,
+        "cool": 4,
+        "risk": 200.0
       },
       "outcomes": {
-        "target_hit": 41,
+        "target_hit": 39,
+        "mll_breach": 2,
         "timeout": 6
       },
-      "updatedAt": "2026-02-11T22:01:12Z"
+      "updatedAt": "2026-02-11T23:29:58Z"
     },
     {
       "artifact": "artifacts/backtest-artifacts-v2-1337",
@@ -398,7 +399,7 @@
         "timeout": 37,
         "target_hit": 10
       },
-      "updatedAt": "2026-02-11T22:01:14Z"
+      "updatedAt": "2026-02-11T23:30:02Z"
     },
     {
       "artifact": "artifacts/backtest-artifacts-v6-1337",
@@ -429,7 +430,7 @@
         "target_hit": 32,
         "timeout": 15
       },
-      "updatedAt": "2026-02-11T22:01:14Z"
+      "updatedAt": "2026-02-11T23:30:01Z"
     },
     {
       "artifact": "artifacts/backtest-artifacts-v6-777",
@@ -460,7 +461,7 @@
         "target_hit": 32,
         "timeout": 15
       },
-      "updatedAt": "2026-02-11T22:01:15Z"
+      "updatedAt": "2026-02-11T23:29:58Z"
     },
     {
       "artifact": "artifacts/backtest-artifacts-v5-2021",
@@ -495,7 +496,7 @@
         "mll_breach": 2,
         "timeout": 6
       },
-      "updatedAt": "2026-02-11T22:01:11Z"
+      "updatedAt": "2026-02-11T23:30:00Z"
     },
     {
       "artifact": "artifacts/backtest-artifacts-v5-404",
@@ -529,7 +530,7 @@
         "target_hit": 41,
         "timeout": 6
       },
-      "updatedAt": "2026-02-11T22:01:12Z"
+      "updatedAt": "2026-02-11T23:30:00Z"
     }
   ]
 }
