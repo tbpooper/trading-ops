@@ -1,16 +1,19 @@
-"""Strategy v8: ORB + Pullback continuation with daily target stop.
+"""Strategy v8.1: Open-engine ORB + Pullback continuation with daily target ladder.
 
-Design goal: improve calendar-days pass<=5 by increasing daily opportunity and
-locking in consistent daily progress.
+Goal: step-change calendar-days pass<=5 by prioritizing the 9:30–10:15 ET open
+(move-capture window) while staying conservative outside the open.
 
 Key ideas:
-- Regime filter: ATR >= min and EMA spread >= min (trend day filter)
-- Entry type A (ORB breakout): break above/below N-bar range with buffer
-- Entry type B (Pullback continuation): in-trend close crosses back above/below fast EMA after pulling back
+- Regime filter: ATR >= min + EMA spread >= min
+- OPEN ENGINE (default 14:30–15:15 UTC):
+  - ORB breakout (aggressive settings)
+  - Optional pullback continuation (higher frequency)
+  - If first open trade is a winner, allow "press mode" daily target
+- OUTSIDE OPEN: stricter filters + ORB only (optional), typically lower frequency
 - Exits: ATR stop + ATR TP + ATR trail + max hold
-- Daily stop: stop trading for day after reaching daily_profit_target
+- Governor: max trades/losses/day, daily loss stop, cooldown, stop-after-1-loss option
 
-No partials. Research harness only.
+Research harness only.
 """
 
 from __future__ import annotations
@@ -62,7 +65,6 @@ class ORB:
 
 @dataclass(frozen=True)
 class Pullback:
-    # require a pullback across fast EMA, then re-cross in direction of trend
     enabled: bool = True
     min_bars_since_cross: int = 1
 
@@ -83,20 +85,38 @@ class Governor:
     daily_loss_stop: float = 300.0
     cooldown_bars_after_loss: int = 6
 
-    daily_profit_target: float = 250.0
+    # Daily target ladder
+    daily_profit_target_base: float = 200.0
+    daily_profit_target_press: float = 625.0
+
+    # If True, shut down the day after the first losing trade
+    stop_after_first_loss: bool = False
 
 
 @dataclass(frozen=True)
 class Params:
+    # Broad allowed session (awake window). Defaults match 7:30am–10pm ET.
     session_start_min_utc: int = 12 * 60 + 30
     session_end_min_utc: int = 3 * 60
+
+    # Open engine window (9:30–10:15 ET => 14:30–15:15 UTC in standard time)
+    open_start_min_utc: int = 14 * 60 + 30
+    open_end_min_utc: int = 15 * 60 + 15
 
     risk_per_trade_dollars: float = 150.0
     max_micros: int = 20
 
     regime: Regime = Regime()
-    orb: ORB = ORB()
-    pullback: Pullback = Pullback()
+
+    # Open engine knobs
+    open_min_spread_points: float = 1.0
+    open_orb: ORB = ORB(lookback=9, buffer_points=0.0)
+    open_pullback: Pullback = Pullback(enabled=True, min_bars_since_cross=1)
+
+    # Rest-of-day knobs
+    day_orb: ORB = ORB(lookback=18, buffer_points=1.0)
+    day_pullback: Pullback = Pullback(enabled=False, min_bars_since_cross=2)
+
     exits: Exits = Exits()
     governor: Governor = Governor()
 
@@ -151,6 +171,8 @@ def generate_trades(candles: List[Candle], p: Params) -> List[Trade]:
     stop_for_day = False
 
     last_cross_i = -999999
+    press_mode = False
+    first_trade_done = False
 
     for i in range(2, len(candles)):
         d = day_key_utc(candles[i].ts)
@@ -161,6 +183,8 @@ def generate_trades(candles: List[Candle], p: Params) -> List[Trade]:
             day_pnl = 0.0
             cooldown = 0
             stop_for_day = False
+            press_mode = False
+            first_trade_done = False
 
         if cooldown > 0:
             cooldown -= 1
@@ -213,16 +237,26 @@ def generate_trades(candles: List[Candle], p: Params) -> List[Trade]:
                 )
 
                 day_pnl += pnl
+                if not first_trade_done:
+                    first_trade_done = True
+                    # enable press mode only if first trade is a win AND it happened during open engine
+                    if pnl > 0 and in_session(candles[entry_i].ts, p.open_start_min_utc, p.open_end_min_utc):
+                        press_mode = True
+
                 if pnl < 0:
                     losses_today += 1
                     cooldown = max(cooldown, p.governor.cooldown_bars_after_loss)
+                    if p.governor.stop_after_first_loss:
+                        stop_for_day = True
                     if losses_today >= p.governor.max_losses_per_day:
                         stop_for_day = True
 
                 if day_pnl <= -abs(p.governor.daily_loss_stop):
                     stop_for_day = True
 
-                if day_pnl >= abs(p.governor.daily_profit_target):
+                # daily target ladder
+                target = p.governor.daily_profit_target_press if press_mode else p.governor.daily_profit_target_base
+                if day_pnl >= abs(target):
                     stop_for_day = True
 
                 in_pos = None
@@ -246,8 +280,11 @@ def generate_trades(candles: List[Candle], p: Params) -> List[Trade]:
         if atrp < p.regime.atr_min_points:
             continue
 
+        in_open = in_session(candles[j].ts, p.open_start_min_utc, p.open_end_min_utc)
+
         spread = abs(float(ef[j]) - float(es[j]))
-        if spread < p.regime.min_spread_points:
+        min_spread = p.open_min_spread_points if in_open else p.regime.min_spread_points
+        if spread < min_spread:
             continue
 
         trend_up = float(ef[j]) > float(es[j])
@@ -260,24 +297,26 @@ def generate_trades(candles: List[Candle], p: Params) -> List[Trade]:
             if prev_above != now_above:
                 last_cross_i = j
 
+        orb = p.open_orb if in_open else p.day_orb
+        pull = p.open_pullback if in_open else p.day_pullback
+
         long_sig = False
         short_sig = False
 
         # Entry A: ORB breakout
-        lb = p.orb.lookback
+        lb = orb.lookback
         if j - lb >= 1:
             rng_high = max(highs[j - lb : j])
             rng_low = min(lows[j - lb : j])
-            buf = p.orb.buffer_points
+            buf = orb.buffer_points
             if trend_up and closes[j] > rng_high + buf:
                 long_sig = True
             if trend_dn and closes[j] < rng_low - buf:
                 short_sig = True
 
         # Entry B: pullback continuation
-        if p.pullback.enabled and not (long_sig or short_sig):
-            if (j - last_cross_i) >= p.pullback.min_bars_since_cross:
-                # re-cross in direction of trend
+        if pull.enabled and not (long_sig or short_sig):
+            if (j - last_cross_i) >= pull.min_bars_since_cross:
                 if trend_up and closes[j - 1] < float(ef[j - 1]) and closes[j] > float(ef[j]):
                     long_sig = True
                 if trend_dn and closes[j - 1] > float(ef[j - 1]) and closes[j] < float(ef[j]):

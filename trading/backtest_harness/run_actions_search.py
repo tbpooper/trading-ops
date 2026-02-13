@@ -328,15 +328,24 @@ def run_family_v8(candles, rng: random.Random, max_seconds: float):
 
     space = {
         "atr_min": [8.0, 10.0, 12.0],
-        "min_spread": [1.0, 2.0, 3.0],
-        "orb_lb": [9, 12, 18],
-        "orb_buf": [0.0, 0.5, 1.0],
-        "pb_on": [True, True, False],
-        "pb_wait": [1, 2, 3],
+        "min_spread": [2.0, 3.0, 4.0],
+
+        # open-engine knobs
+        "open_min_spread": [0.5, 1.0, 1.5, 2.0],
+        "open_lb": [6, 9, 12],
+        "open_buf": [0.0, 0.25, 0.5],
+        "open_pb": [True, True, False],
+        "open_pb_wait": [1, 2],
+
+        # rest-of-day knobs (more conservative)
+        "day_lb": [12, 18, 24],
+        "day_buf": [0.5, 1.0, 1.5],
+        "day_pb": [False, False, True],
+        "day_pb_wait": [2, 3, 4],
 
         "stop": [0.5, 0.75, 1.0],
         "trail": [0.5, 0.75],
-        "tp": [1.5, 2.0, 2.5, 3.0],
+        "tp": [2.0, 2.5, 3.0],
         "hold": [36, 48, 72, 96],
 
         "risk": [100.0, 150.0, 200.0],
@@ -344,7 +353,11 @@ def run_family_v8(candles, rng: random.Random, max_seconds: float):
         "ml": [1, 2],
         "dls": [200.0, 250.0, 300.0],
         "cool": [0, 2, 4, 6],
-        "dpt": [150.0, 200.0, 250.0, 300.0],
+
+        # daily target ladder
+        "dpt_base": [150.0, 200.0, 250.0, 300.0],
+        "dpt_press": [450.0, 625.0, 750.0],
+        "stop1": [False, True],
     }
 
     best = None
@@ -356,8 +369,11 @@ def run_family_v8(candles, rng: random.Random, max_seconds: float):
         p = Params(
             risk_per_trade_dollars=float(cfg["risk"]),
             regime=Regime(atr_min_points=float(cfg["atr_min"]), min_spread_points=float(cfg["min_spread"])),
-            orb=ORB(lookback=int(cfg["orb_lb"]), buffer_points=float(cfg["orb_buf"])),
-            pullback=Pullback(enabled=bool(cfg["pb_on"]), min_bars_since_cross=int(cfg["pb_wait"])),
+            open_min_spread_points=float(cfg["open_min_spread"]),
+            open_orb=ORB(lookback=int(cfg["open_lb"]), buffer_points=float(cfg["open_buf"])),
+            open_pullback=Pullback(enabled=bool(cfg["open_pb"]), min_bars_since_cross=int(cfg["open_pb_wait"])),
+            day_orb=ORB(lookback=int(cfg["day_lb"]), buffer_points=float(cfg["day_buf"])),
+            day_pullback=Pullback(enabled=bool(cfg["day_pb"]), min_bars_since_cross=int(cfg["day_pb_wait"])),
             exits=Exits(
                 stop_atr_mult=float(cfg["stop"]),
                 trail_atr_mult=float(cfg["trail"]),
@@ -369,7 +385,9 @@ def run_family_v8(candles, rng: random.Random, max_seconds: float):
                 max_losses_per_day=int(cfg["ml"]),
                 daily_loss_stop=float(cfg["dls"]),
                 cooldown_bars_after_loss=int(cfg["cool"]),
-                daily_profit_target=float(cfg["dpt"]),
+                daily_profit_target_base=float(cfg["dpt_base"]),
+                daily_profit_target_press=float(cfg["dpt_press"]),
+                stop_after_first_loss=bool(cfg["stop1"]),
             ),
         )
 
