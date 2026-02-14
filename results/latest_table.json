@@ -4,46 +4,46 @@
       "artifact": "artifacts/backtest-artifacts-v8-1337",
       "family": "v8",
       "seed": 1337,
-      "pass5_rate": 0.3404255319148936,
+      "pass5_rate": 0.3191489361702128,
       "mll_rate": 0.0,
-      "timeout_rate": 0.06382978723404255,
+      "timeout_rate": 0.1276595744680851,
       "score": [
-        0.3404255319148936,
-        -0.06382978723404255
+        0.3191489361702128,
+        -0.1276595744680851
       ],
       "cfg": {
         "atr_min": 10.0,
         "min_spread": 4.0,
         "open_min_spread": 2.0,
-        "open_lb": 9,
+        "open_lb": 12,
         "open_buf": 0.5,
         "open_pb": true,
         "open_pb_wait": 2,
-        "day_lb": 24,
-        "day_buf": 1.0,
-        "day_pb": false,
+        "day_lb": 12,
+        "day_buf": 0.5,
+        "day_pb": true,
         "day_pb_wait": 3,
-        "stop": 1.0,
+        "stop": 0.5,
         "trail": 0.5,
-        "tp": 2.5,
-        "hold": 72,
-        "risk": 200.0,
-        "mt": 4,
+        "tp": 3.0,
+        "hold": 36,
+        "risk": 150.0,
+        "mt": 3,
         "ml": 2,
-        "dls": 300.0,
-        "cool": 0,
-        "dpt_base": 300.0,
+        "dls": 200.0,
+        "cool": 2,
+        "dpt_base": 250.0,
         "dpt_press": 450.0,
         "stop1": false,
         "oc_on": true,
         "oc_frac": 0.65,
-        "oc_em": 0.1
+        "oc_em": 0.0
       },
       "outcomes": {
-        "target_hit": 44,
-        "timeout": 3
+        "target_hit": 41,
+        "timeout": 6
       },
-      "updatedAt": "2026-02-14T10:22:57Z"
+      "updatedAt": "2026-02-14T11:22:46Z"
     },
     {
       "artifact": "artifacts/backtest-artifacts-v8-777",
@@ -88,7 +88,7 @@
         "target_hit": 44,
         "timeout": 3
       },
-      "updatedAt": "2026-02-14T10:22:52Z"
+      "updatedAt": "2026-02-14T11:22:46Z"
     },
     {
       "artifact": "artifacts/backtest-artifacts-v8-2021",
@@ -133,7 +133,7 @@
         "target_hit": 43,
         "timeout": 4
       },
-      "updatedAt": "2026-02-14T10:22:57Z"
+      "updatedAt": "2026-02-14T11:22:48Z"
     },
     {
       "artifact": "artifacts/backtest-artifacts-v8-404",
@@ -179,7 +179,7 @@
         "mll_breach": 2,
         "timeout": 3
       },
-      "updatedAt": "2026-02-14T10:22:52Z"
+      "updatedAt": "2026-02-14T11:22:50Z"
     }
   ]
 }

@@ -1,8 +1,8 @@
 {
   "best": {
-    "artifact": "artifacts/backtest-artifacts-v8-1337",
+    "artifact": "artifacts/backtest-artifacts-v8-777",
     "family": "v8",
-    "seed": 1337,
+    "seed": 777,
     "pass5_rate": 0.3404255319148936,
     "mll_rate": 0.0,
     "timeout_rate": 0.06382978723404255,
@@ -11,37 +11,37 @@
       -0.06382978723404255
     ],
     "cfg": {
-      "atr_min": 10.0,
+      "atr_min": 8.0,
       "min_spread": 4.0,
-      "open_min_spread": 2.0,
-      "open_lb": 9,
+      "open_min_spread": 1.0,
+      "open_lb": 12,
       "open_buf": 0.5,
       "open_pb": true,
       "open_pb_wait": 2,
       "day_lb": 24,
       "day_buf": 1.0,
       "day_pb": false,
-      "day_pb_wait": 3,
-      "stop": 1.0,
+      "day_pb_wait": 2,
+      "stop": 0.5,
       "trail": 0.5,
-      "tp": 2.5,
-      "hold": 72,
-      "risk": 200.0,
+      "tp": 3.0,
+      "hold": 48,
+      "risk": 150.0,
       "mt": 4,
       "ml": 2,
-      "dls": 300.0,
+      "dls": 250.0,
       "cool": 0,
       "dpt_base": 300.0,
-      "dpt_press": 450.0,
+      "dpt_press": 750.0,
       "stop1": false,
       "oc_on": true,
       "oc_frac": 0.65,
-      "oc_em": 0.1
+      "oc_em": 0.2
     },
     "outcomes": {
       "target_hit": 44,
       "timeout": 3
     },
-    "updatedAt": "2026-02-14T10:22:57Z"
+    "updatedAt": "2026-02-14T11:22:46Z"
   }
 }
