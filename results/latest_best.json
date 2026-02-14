@@ -1,47 +1,38 @@
 {
   "best": {
-    "artifact": "artifacts/backtest-artifacts-v8-777",
-    "family": "v8",
+    "artifact": "artifacts/backtest-artifacts-v9-777",
+    "family": "v9",
     "seed": 777,
-    "pass5_rate": 0.3404255319148936,
+    "pass5_rate": 0.7659574468085106,
     "mll_rate": 0.0,
-    "timeout_rate": 0.06382978723404255,
+    "timeout_rate": 0.0425531914893617,
     "score": [
-      0.3404255319148936,
-      -0.06382978723404255
+      0.7659574468085106,
+      -0.0425531914893617
     ],
     "cfg": {
-      "atr_min": 8.0,
-      "min_spread": 4.0,
-      "open_min_spread": 1.0,
-      "open_lb": 12,
-      "open_buf": 0.5,
-      "open_pb": true,
-      "open_pb_wait": 2,
-      "day_lb": 24,
-      "day_buf": 1.0,
-      "day_pb": false,
-      "day_pb_wait": 2,
-      "stop": 0.5,
-      "trail": 0.5,
-      "tp": 3.0,
-      "hold": 48,
-      "risk": 150.0,
+      "atr_min": 12.0,
+      "dev": 0.6,
+      "rev": false,
+      "use_spread": false,
+      "max_spread": 2.0,
+      "stop": 0.6,
+      "trail": 0.3,
+      "tp": 1.5,
+      "hold": 18,
+      "risk": 200.0,
       "mt": 4,
       "ml": 2,
       "dls": 250.0,
-      "cool": 0,
-      "dpt_base": 300.0,
+      "cool": 2,
+      "dpt_base": 200.0,
       "dpt_press": 750.0,
-      "stop1": false,
-      "oc_on": true,
-      "oc_frac": 0.65,
-      "oc_em": 0.2
+      "stop1": false
     },
     "outcomes": {
-      "target_hit": 44,
-      "timeout": 3
+      "target_hit": 45,
+      "timeout": 2
     },
-    "updatedAt": "2026-02-14T14:21:52Z"
+    "updatedAt": "2026-02-14T15:23:22Z"
   }
 }
