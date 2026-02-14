@@ -113,6 +113,13 @@ class Params:
     open_orb: ORB = ORB(lookback=9, buffer_points=0.0)
     open_pullback: Pullback = Pullback(enabled=True, min_bars_since_cross=1)
 
+    # Open-quality confirmation (reduce fakeouts)
+    open_confirm_enabled: bool = True
+    # for ORB: require close in top/bottom X% of the candle range
+    open_confirm_frac: float = 0.6
+    # for pullback: require close beyond fast EMA by >= margin*ATR(exits)
+    open_pullback_ema_margin_atr: float = 0.1
+
     # Rest-of-day knobs
     day_orb: ORB = ORB(lookback=18, buffer_points=1.0)
     day_pullback: Pullback = Pullback(enabled=False, min_bars_since_cross=2)
@@ -309,10 +316,20 @@ def generate_trades(candles: List[Candle], p: Params) -> List[Trade]:
             rng_high = max(highs[j - lb : j])
             rng_low = min(lows[j - lb : j])
             buf = orb.buffer_points
+
             if trend_up and closes[j] > rng_high + buf:
                 long_sig = True
             if trend_dn and closes[j] < rng_low - buf:
                 short_sig = True
+
+            # Open confirmation: avoid weak closes on fake breakouts
+            if in_open and p.open_confirm_enabled:
+                r = max(1e-9, highs[j] - lows[j])
+                frac = p.open_confirm_frac
+                if long_sig and closes[j] < lows[j] + frac * r:
+                    long_sig = False
+                if short_sig and closes[j] > highs[j] - frac * r:
+                    short_sig = False
 
         # Entry B: pullback continuation
         if pull.enabled and not (long_sig or short_sig):
@@ -321,6 +338,14 @@ def generate_trades(candles: List[Candle], p: Params) -> List[Trade]:
                     long_sig = True
                 if trend_dn and closes[j - 1] > float(ef[j - 1]) and closes[j] < float(ef[j]):
                     short_sig = True
+
+            # Open confirmation for pullbacks: require some distance beyond EMA
+            if in_open and p.open_confirm_enabled and (long_sig or short_sig) and ax[j] is not None:
+                margin = float(ax[j]) * p.open_pullback_ema_margin_atr
+                if long_sig and (closes[j] - float(ef[j])) < margin:
+                    long_sig = False
+                if short_sig and (float(ef[j]) - closes[j]) < margin:
+                    short_sig = False
 
         if not (long_sig or short_sig):
             continue

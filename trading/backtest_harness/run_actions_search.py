@@ -358,6 +358,11 @@ def run_family_v8(candles, rng: random.Random, max_seconds: float):
         "dpt_base": [150.0, 200.0, 250.0, 300.0],
         "dpt_press": [450.0, 625.0, 750.0],
         "stop1": [False, True],
+
+        # open-quality confirmation
+        "oc_on": [True, True, False],
+        "oc_frac": [0.55, 0.6, 0.65],
+        "oc_em": [0.0, 0.1, 0.2],
     }
 
     best = None
@@ -372,6 +377,9 @@ def run_family_v8(candles, rng: random.Random, max_seconds: float):
             open_min_spread_points=float(cfg["open_min_spread"]),
             open_orb=ORB(lookback=int(cfg["open_lb"]), buffer_points=float(cfg["open_buf"])),
             open_pullback=Pullback(enabled=bool(cfg["open_pb"]), min_bars_since_cross=int(cfg["open_pb_wait"])),
+            open_confirm_enabled=bool(cfg["oc_on"]),
+            open_confirm_frac=float(cfg["oc_frac"]),
+            open_pullback_ema_margin_atr=float(cfg["oc_em"]),
             day_orb=ORB(lookback=int(cfg["day_lb"]), buffer_points=float(cfg["day_buf"])),
             day_pullback=Pullback(enabled=bool(cfg["day_pb"]), min_bars_since_cross=int(cfg["day_pb_wait"])),
             exits=Exits(
