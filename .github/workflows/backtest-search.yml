@@ -20,7 +20,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        family: [v8]
+        family: [v9]
         seed: [1337, 2021, 404, 777]
 
     steps:
