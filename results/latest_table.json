@@ -34,7 +34,7 @@
         "target_hit": 44,
         "timeout": 3
       },
-      "updatedAt": "2026-02-19T20:25:47Z"
+      "updatedAt": "2026-02-19T21:29:44Z"
     },
     {
       "artifact": "artifacts/backtest-artifacts-v9-777",
@@ -70,43 +70,7 @@
         "target_hit": 45,
         "timeout": 2
       },
-      "updatedAt": "2026-02-19T20:25:45Z"
-    },
-    {
-      "artifact": "artifacts/backtest-artifacts-v9-2021",
-      "family": "v9",
-      "seed": 2021,
-      "pass5_rate": 0.6595744680851063,
-      "mll_rate": 0.0,
-      "timeout_rate": 0.06382978723404255,
-      "score": [
-        0.6595744680851063,
-        -0.06382978723404255
-      ],
-      "cfg": {
-        "atr_min": 8.0,
-        "dev": 0.6,
-        "rev": false,
-        "use_spread": false,
-        "max_spread": 2.0,
-        "stop": 0.5,
-        "trail": 0.3,
-        "tp": 2.0,
-        "hold": 36,
-        "risk": 200.0,
-        "mt": 3,
-        "ml": 2,
-        "dls": 250.0,
-        "cool": 0,
-        "dpt_base": 250.0,
-        "dpt_press": 750.0,
-        "stop1": true
-      },
-      "outcomes": {
-        "target_hit": 44,
-        "timeout": 3
-      },
-      "updatedAt": "2026-02-19T20:25:46Z"
+      "updatedAt": "2026-02-19T21:29:43Z"
     },
     {
       "artifact": "artifacts/backtest-artifacts-v9-404",
@@ -142,7 +106,43 @@
         "target_hit": 45,
         "timeout": 2
       },
-      "updatedAt": "2026-02-19T20:25:51Z"
+      "updatedAt": "2026-02-19T21:29:41Z"
+    },
+    {
+      "artifact": "artifacts/backtest-artifacts-v9-2021",
+      "family": "v9",
+      "seed": 2021,
+      "pass5_rate": 0.6595744680851063,
+      "mll_rate": 0.0,
+      "timeout_rate": 0.06382978723404255,
+      "score": [
+        0.6595744680851063,
+        -0.06382978723404255
+      ],
+      "cfg": {
+        "atr_min": 8.0,
+        "dev": 0.6,
+        "rev": false,
+        "use_spread": false,
+        "max_spread": 2.0,
+        "stop": 0.5,
+        "trail": 0.3,
+        "tp": 2.0,
+        "hold": 36,
+        "risk": 200.0,
+        "mt": 3,
+        "ml": 2,
+        "dls": 250.0,
+        "cool": 0,
+        "dpt_base": 250.0,
+        "dpt_press": 750.0,
+        "stop1": true
+      },
+      "outcomes": {
+        "target_hit": 44,
+        "timeout": 3
+      },
+      "updatedAt": "2026-02-19T21:29:43Z"
     }
   ]
 }
