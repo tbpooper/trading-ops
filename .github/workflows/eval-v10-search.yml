@@ -1,0 +1,57 @@
+name: eval-v10-search
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '15,45 * * * *'
+
+concurrency:
+  group: eval-v10-search
+  cancel-in-progress: true
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+
+    strategy:
+      fail-fast: false
+      matrix:
+        seed: [777, 404, 1337, 2021]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt || true
+
+      - name: Download data (MNQ 5m)
+        run: |
+          set -e
+          mkdir -p trading/data/inbound
+          url="https://github.com/tbpooper/trading-ops/releases/download/data-v1/mnq1_5m_tv_unix.csv"
+          out="trading/data/inbound/mnq1_5m_tv_unix.csv"
+          curl --fail --location --retry 5 --retry-delay 2 --connect-timeout 10 -o "$out" "$url"
+
+      - name: Run eval v10 bounded search
+        env:
+          PYTHONPATH: .
+          DATA_CSV: trading/data/inbound/mnq1_5m_tv_unix.csv
+          MAX_SECONDS: 1200
+          SEED: ${{ matrix.seed }}
+        run: |
+          python trading/prop/lucid_black_25k/backtest/run_eval_v10_actions_search.py
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: eval-v10-${{ matrix.seed }}
+          path: artifacts/
