@@ -34,7 +34,7 @@
         "target_hit": 45,
         "timeout": 2
       },
-      "updatedAt": "2026-04-09T21:25:06Z"
+      "updatedAt": "2026-04-09T22:17:50Z"
     },
     {
       "artifact": "artifacts/backtest-artifacts-v9-1337",
@@ -70,7 +70,7 @@
         "target_hit": 44,
         "timeout": 3
       },
-      "updatedAt": "2026-04-09T21:25:03Z"
+      "updatedAt": "2026-04-09T22:17:53Z"
     },
     {
       "artifact": "artifacts/backtest-artifacts-v9-2021",
@@ -106,7 +106,7 @@
         "target_hit": 44,
         "timeout": 3
       },
-      "updatedAt": "2026-04-09T21:25:07Z"
+      "updatedAt": "2026-04-09T22:17:49Z"
     },
     {
       "artifact": "artifacts/backtest-artifacts-v9-777",
@@ -142,7 +142,7 @@
         "target_hit": 45,
         "timeout": 2
       },
-      "updatedAt": "2026-04-09T21:25:06Z"
+      "updatedAt": "2026-04-09T22:17:48Z"
     }
   ]
 }
