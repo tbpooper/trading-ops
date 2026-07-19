@@ -34,7 +34,7 @@
         "target_hit": 45,
         "timeout": 2
       },
-      "updatedAt": "2026-07-19T14:10:46Z"
+      "updatedAt": "2026-07-19T15:29:52Z"
     },
     {
       "artifact": "artifacts/backtest-artifacts-v9-404",
@@ -70,43 +70,43 @@
         "target_hit": 45,
         "timeout": 2
       },
-      "updatedAt": "2026-07-19T14:10:44Z"
+      "updatedAt": "2026-07-19T15:29:53Z"
     },
     {
       "artifact": "artifacts/backtest-artifacts-v9-2021",
       "family": "v9",
       "seed": 2021,
-      "pass5_rate": 0.6595744680851063,
+      "pass5_rate": 0.6808510638297872,
       "mll_rate": 0.0,
-      "timeout_rate": 0.06382978723404255,
+      "timeout_rate": 0.0851063829787234,
       "score": [
-        0.6595744680851063,
-        -0.06382978723404255
+        0.6808510638297872,
+        -0.0851063829787234
       ],
       "cfg": {
         "atr_min": 8.0,
         "dev": 0.6,
         "rev": false,
         "use_spread": false,
-        "max_spread": 2.0,
+        "max_spread": 1.5,
         "stop": 0.5,
         "trail": 0.3,
-        "tp": 2.0,
-        "hold": 36,
-        "risk": 200.0,
-        "mt": 3,
+        "tp": 1.5,
+        "hold": 12,
+        "risk": 150.0,
+        "mt": 4,
         "ml": 2,
-        "dls": 250.0,
-        "cool": 0,
-        "dpt_base": 250.0,
-        "dpt_press": 750.0,
-        "stop1": true
+        "dls": 300.0,
+        "cool": 4,
+        "dpt_base": 300.0,
+        "dpt_press": 625.0,
+        "stop1": false
       },
       "outcomes": {
-        "target_hit": 44,
-        "timeout": 3
+        "target_hit": 43,
+        "timeout": 4
       },
-      "updatedAt": "2026-07-19T14:10:46Z"
+      "updatedAt": "2026-07-19T15:29:54Z"
     },
     {
       "artifact": "artifacts/backtest-artifacts-v9-1337",
@@ -142,7 +142,7 @@
         "target_hit": 45,
         "timeout": 2
       },
-      "updatedAt": "2026-07-19T14:10:44Z"
+      "updatedAt": "2026-07-19T15:29:54Z"
     }
   ]
 }
