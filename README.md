@@ -9,9 +9,14 @@ This repo will hold:
 - A lightweight backtest harness (later) once your rules are clearly specified
 
 ## Safety / scope
-This is decision support and analytics — not auto-trading, not financial advice.
+- Decision support + analytics only.
+- No auto-order execution.
+- Not financial advice.
 
-## Next steps
-1. Define your setups (names + entry/exit rules) in `strategies/`.
-2. Start logging trades with `journal/` templates.
-3. Generate daily review prompts.
+## Quick start
+1) Pick 1 setup and write it as a rule card in `strategies/`.
+2) Log every trade in `journal/trades.template.csv`.
+3) Use `checklists/opening-checklist.md` before 9:30.
+
+## Roadmap
+See `ROADMAP.md`.
